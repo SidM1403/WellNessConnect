@@ -75,10 +75,10 @@ api.interceptors.response.use(
     }
     
     // Preserve original error for better debugging, but provide message
-    const error = new Error(errorMessage);
-    error.status = status;
-    error.response = response;
-    return Promise.reject(error);
+    const wrappedError = new Error(errorMessage);
+    wrappedError.status = status;
+    wrappedError.response = response;
+    return Promise.reject(wrappedError);
   }
 );
 

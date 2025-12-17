@@ -1,0 +1,39 @@
+# ============================================
+# COPY THESE TO VERCEL DASHBOARD
+# ============================================
+# Vercel Dashboard → Your Project → Settings → Environment Variables
+# Add each variable one by one, or use the CLI
+
+# REQUIRED VARIABLES (Must have these):
+
+MONGO_URI=mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/wellconnect?retryWrites=true&w=majority
+
+JWT_SECRET=your-super-secret-jwt-key-change-this-to-random-32-plus-characters
+
+NODE_ENV=production
+
+# OPTIONAL BUT RECOMMENDED:
+
+FRONTEND_URL=https://your-app-name.vercel.app
+
+HUGGINGFACE_API_KEY=your-huggingface-api-key-here
+
+# ============================================
+# INSTRUCTIONS:
+# ============================================
+# 1. Replace MONGO_URI with your actual MongoDB Atlas connection string
+#    - Get from: MongoDB Atlas → Clusters → Connect → Connect your application
+#    - Replace <password> with your database user password
+#
+# 2. Replace JWT_SECRET with a strong random string (32+ characters)
+#    - Generate: openssl rand -base64 32 (Mac/Linux)
+#    - Or use any random secure string
+#
+# 3. Replace FRONTEND_URL with your actual Vercel deployment URL
+#    - Format: https://your-project-name.vercel.app
+#    - Get this after first deployment
+#
+# 4. HUGGINGFACE_API_KEY is optional (only needed for AI features)
+#    - Get from: https://huggingface.co/settings/tokens
+#    - Can leave empty if not using AI features
+
