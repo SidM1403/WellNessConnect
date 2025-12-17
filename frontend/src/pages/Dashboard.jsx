@@ -27,22 +27,27 @@ const Dashboard = () => {
 
   const loadAll = async () => {
     setLoading(true);
-    const [postRes, moodRes, sessionRes, moodAnalyticRes, actAnalyticRes] =
-      await Promise.all([
-        api.get('/posts', { params: { author: user?._id } }),
-        api.get('/mood/history'),
-        api.get('/sessions'),
-        api.get('/analytics/mood'),
-        api.get('/analytics/activity')
-      ]);
-    setPosts(postRes.data.posts || []);
-    setMoodHistory(moodRes.data.history || []);
-    setSessions(sessionRes.data.sessions || []);
-    setAnalytics({
-      mood: moodAnalyticRes.data.trend || [],
-      activity: actAnalyticRes.data || { sessions: [], habits: [] }
-    });
-    setLoading(false);
+    try {
+      const [postRes, moodRes, sessionRes, moodAnalyticRes, actAnalyticRes] =
+        await Promise.all([
+          api.get('/posts', { params: { author: user?._id } }).catch(() => ({ data: { posts: [] } })),
+          api.get('/mood/history').catch(() => ({ data: { history: [] } })),
+          api.get('/sessions').catch(() => ({ data: { sessions: [] } })),
+          api.get('/analytics/mood').catch(() => ({ data: { trend: [] } })),
+          api.get('/analytics/activity').catch(() => ({ data: { sessions: [], habits: [] } }))
+        ]);
+      setPosts(postRes.data.posts || []);
+      setMoodHistory(moodRes.data.history || []);
+      setSessions(sessionRes.data.sessions || []);
+      setAnalytics({
+        mood: moodAnalyticRes.data.trend || [],
+        activity: actAnalyticRes.data || { sessions: [], habits: [] }
+      });
+    } catch (err) {
+      console.error('Error loading dashboard data:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {

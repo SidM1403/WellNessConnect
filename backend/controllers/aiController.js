@@ -74,28 +74,24 @@ export const createAIChat = async (req, res, next) => {
         'I can offer general wellness reflections, but the AI brain is not configured on this server yet. Please ask your administrator to add a Hugging Face API key. In the meantime, consider gentle movement, regular sleep, and talking with a trusted healthcare professional about any concerns.';
     } else {
       const systemPrompt = buildSystemPrompt(mode);
-      const history =  chat.messages.slice(-8).map((m) => `${m.role.toUpperCase()}: ${m.content}`);
+      const history = chat.messages.slice(-8).map((m) => `${m.role.toUpperCase()}: ${m.content}`);
       const prompt = `${systemPrompt}\n\nConversation so far:\n${history.join(
         '\n'
       )}\n\nRespond as the assistant to the last user message.`;
 
-      if (!hf) {
-        assistantText = 'AI service is not properly configured. Please check your API key.';
-      } else {
-        try {
-          const response = await hf.textGeneration({
-            model: MODEL_NAME,
-            inputs: prompt,
-            parameters: {
-              max_new_tokens: 150,
-              return_full_text: false
-            }
-          });
-          assistantText = response.generated_text.trim();
-        } catch (error) {
-          console.error('Error calling Hugging Face API:', error);
-          assistantText = 'I\'m having trouble connecting to the AI service. Please try again later.';
-        }
+      try {
+        const response = await hf.textGeneration({
+          model: MODEL_NAME,
+          inputs: prompt,
+          parameters: {
+            max_new_tokens: 150,
+            return_full_text: false
+          }
+        });
+        assistantText = response.generated_text.trim();
+      } catch (error) {
+        console.error('Error calling Hugging Face API:', error);
+        assistantText = 'I\'m having trouble connecting to the AI service. Please try again later.';
       }
 
       if (!assistantText) {

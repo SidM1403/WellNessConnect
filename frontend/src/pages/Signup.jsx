@@ -14,7 +14,7 @@ const Signup = () => {
       await register(form);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || 'Signup failed');
+      setError(err.message || err.response?.data?.message || 'Signup failed');
     }
   };
 

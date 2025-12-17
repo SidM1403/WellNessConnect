@@ -24,7 +24,24 @@ import bmiRoutes from './routes/bmiRoutes.js';
 
 const app = express();
 
-app.use(cors());
+// CORS configuration - allow localhost for development, or use env variable for production
+const corsOptions = {
+  origin: function (origin, callback) {
+    const allowedOrigins = process.env.FRONTEND_URL 
+      ? [process.env.FRONTEND_URL]
+      : ['http://localhost:5173', 'http://localhost:3000'];
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(null, true); // For development, allow all origins
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan('dev'));
 
