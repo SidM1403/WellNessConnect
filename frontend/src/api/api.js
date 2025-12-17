@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 // Log the base URL being used
-// In development, use proxy via '/api', in production use full URL or env variable
-const baseURL = import.meta.env.VITE_API_BASE || (import.meta.env.DEV ? '/api' : 'http://localhost:5000/api');
+// In development, use proxy via '/api', in production use env variable or same origin
+const baseURL = import.meta.env.VITE_API_BASE || (import.meta.env.DEV ? '/api' : '/api');
 console.log('[API] Using base URL:', baseURL);
 
 const api = axios.create({

@@ -1,0 +1,14 @@
+{
+  "name": "wellconnect",
+  "version": "1.0.0",
+  "description": "WellConnect Health & Wellness Community Platform",
+  "scripts": {
+    "install:backend": "cd backend && npm install",
+    "install:frontend": "cd frontend && npm install",
+    "install:all": "npm run install:backend && npm run install:frontend"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
+

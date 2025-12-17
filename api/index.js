@@ -1,17 +1,6 @@
-// api/index.js
-const express = require('express');
-const app = express();
-const path = require('path');
+// Vercel serverless function entry point
+// This wraps the Express app for Vercel deployment
+import app from '../backend/server.js';
 
-// Import your actual server setup
-require('../backend/server')(app);
-
-// Serve static files from frontend in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../frontend/dist')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
-  });
-}
-
-module.exports = app;
+// Export the Express app as a Vercel serverless function
+export default app;
