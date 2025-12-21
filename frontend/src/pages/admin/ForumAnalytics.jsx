@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import api from '../../api/api.js';
-import LoadingSkeleton from '../../components/LoadingSkeleton.jsx';
+import { ForumPostsChart } from './Charts.jsx';
+import { MessageSquare, AlertTriangle, Activity, Trash2 } from 'lucide-react';
 
 const ForumAnalytics = () => {
   const [data, setData] = useState(null);
@@ -38,19 +39,34 @@ const ForumAnalytics = () => {
     }
   };
 
-  if (loading) return <LoadingSkeleton />;
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex justify-between items-center">
+          <div className="h-10 w-1/3 bg-surface-100 rounded-xl animate-pulse" />
+          <div className="h-10 w-32 bg-surface-100 rounded-xl animate-pulse" />
+        </div>
+        <div className="grid md:grid-cols-3 gap-6">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="h-32 bg-white rounded-3xl border border-surface-200 animate-pulse" />
+          ))}
+        </div>
+        <div className="h-64 bg-white rounded-3xl border border-surface-200 animate-pulse" />
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-50 mb-2">Forum Analytics</h1>
-          <p className="text-slate-400">Monitor community engagement and moderation</p>
+          <h1 className="text-2xl font-bold font-display text-text-primary">Forum Analytics</h1>
+          <p className="text-text-secondary mt-1">Monitor community engagement and moderation</p>
         </div>
         <select
           value={period}
           onChange={(e) => setPeriod(e.target.value)}
-          className="glass rounded-xl px-4 py-2 text-slate-50 border border-white/10"
+          className="px-4 py-2 bg-white border border-surface-200 rounded-xl text-text-primary shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20"
         >
           <option value="7">Last 7 Days</option>
           <option value="30">Last 30 Days</option>
@@ -62,44 +78,56 @@ const ForumAnalytics = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass rounded-2xl p-6"
+          className="card-premium p-6"
         >
-          <p className="text-sm text-slate-400 mb-2">Total Threads</p>
-          <p className="text-3xl font-bold text-slate-50">{data?.totalThreads || 0}</p>
+          <div className="flex justify-between items-start mb-4">
+            <div className="p-3 bg-indigo-50 rounded-2xl text-indigo-500">
+              <MessageSquare size={24} />
+            </div>
+          </div>
+          <p className="text-3xl font-bold text-text-primary">{data?.totalThreads || 0}</p>
+          <p className="text-sm font-medium text-text-secondary">Total Threads</p>
         </motion.div>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="glass rounded-2xl p-6"
+          className="card-premium p-6"
         >
-          <p className="text-sm text-slate-400 mb-2">Reported Posts</p>
-          <p className="text-3xl font-bold text-red-400">{data?.reportedCount || 0}</p>
+          <div className="flex justify-between items-start mb-4">
+            <div className="p-3 bg-rose-50 rounded-2xl text-rose-500">
+              <AlertTriangle size={24} />
+            </div>
+          </div>
+          <p className="text-3xl font-bold text-text-primary">{data?.reportedCount || 0}</p>
+          <p className="text-sm font-medium text-text-secondary">Reported Posts</p>
         </motion.div>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="glass rounded-2xl p-6"
+          className="card-premium p-6"
         >
-          <p className="text-sm text-slate-400 mb-2">Active Topics</p>
-          <p className="text-3xl font-bold text-emerald-400">
+          <div className="flex justify-between items-start mb-4">
+            <div className="p-3 bg-emerald-50 rounded-2xl text-emerald-500">
+              <Activity size={24} />
+            </div>
+          </div>
+          <p className="text-3xl font-bold text-text-primary">
             {data?.activeTopics?.length || 0}
           </p>
+          <p className="text-sm font-medium text-text-secondary">Active Topics</p>
         </motion.div>
       </div>
 
-      {/* Charts temporarily disabled to avoid extra charting dependencies */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="glass rounded-2xl p-6 border border-slate-700/60"
+        transition={{ delay: 0.3 }}
       >
-        <h2 className="text-xl font-semibold text-slate-50 mb-2">Charts temporarily disabled</h2>
-        <p className="text-sm text-slate-400">
-          Thread counts, reports, and topic metrics above are still accurate. Visual forum charts
-          were removed to simplify the frontend and avoid additional chart libraries.
-        </p>
+        <ForumPostsChart data={data?.postsPerDay || []} />
       </motion.div>
 
       {reportedPosts.length > 0 && (
@@ -107,28 +135,31 @@ const ForumAnalytics = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="glass rounded-2xl p-6"
+          className="card-premium p-6"
         >
-          <h2 className="text-xl font-semibold text-slate-50 mb-4">Reported Posts</h2>
-          <div className="space-y-3 max-h-96 overflow-auto">
+          <h2 className="text-xl font-bold text-text-primary mb-6">Reported Posts</h2>
+          <div className="space-y-4 max-h-96 overflow-auto pr-2 custom-scrollbar">
             {reportedPosts.map((post) => (
               <div
                 key={post._id}
-                className="border border-red-500/30 rounded-xl p-4 bg-red-500/10"
+                className="bg-rose-50 border border-rose-100 rounded-xl p-4"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1">
-                    <h3 className="font-semibold text-slate-50 mb-1">{post.title}</h3>
-                    <p className="text-sm text-slate-400 mb-2 line-clamp-2">{post.content}</p>
-                    <p className="text-xs text-slate-500">
-                      By {post.author?.name || 'Unknown'} • {post.reportedCount || 0} reports
-                    </p>
+                    <h3 className="font-bold text-gray-900 mb-1">{post.title}</h3>
+                    <p className="text-sm text-gray-600 mb-2 line-clamp-2">{post.content}</p>
+                    <div className="flex items-center gap-2 text-xs font-medium text-gray-500">
+                      <span>By {post.author?.name || 'Unknown'}</span>
+                      <span className="w-1 h-1 bg-gray-300 rounded-full" />
+                      <span className="text-rose-600">{post.reportedCount || 0} reports</span>
+                    </div>
                   </div>
                   <button
                     onClick={() => handleDeletePost(post._id)}
-                    className="px-4 py-2 rounded-lg bg-red-500/20 text-red-300 hover:bg-red-500/30 transition-colors text-sm font-medium"
+                    className="p-2 rounded-lg bg-white text-rose-500 shadow-sm border border-rose-100 hover:bg-rose-500 hover:text-white transition-all"
+                    title="Delete Post"
                   >
-                    Delete
+                    <Trash2 size={18} />
                   </button>
                 </div>
               </div>
@@ -141,4 +172,3 @@ const ForumAnalytics = () => {
 };
 
 export default ForumAnalytics;
-

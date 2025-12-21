@@ -3,16 +3,16 @@ import AIChatWindow from '../components/AIChatWindow.jsx';
 
 const AIAssistant = () => {
   return (
-    <div className="space-y-6">
+    <div className="pt-24 pb-8 max-w-4xl mx-auto space-y-6 px-4">
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        className="glass rounded-3xl p-5 sm:p-6"
+        className="bg-white/70 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-card border border-surface-200"
       >
-        <h1 className="text-xl sm:text-2xl font-semibold text-slate-50">
-          Fitness & medical checkup assistant
+        <h1 className="text-xl sm:text-2xl font-bold font-display text-text-primary">
+          Fitness & Medical Assistant
         </h1>
-        <p className="mt-1 text-sm text-slate-200/90">
+        <p className="mt-2 text-sm text-text-secondary leading-relaxed max-w-2xl">
           A calm companion for movement ideas and gentle health reflections. It can support you
           with suggestions, but it cannot diagnose, prescribe, or replace a real clinician.
         </p>

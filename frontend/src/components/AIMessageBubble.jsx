@@ -9,21 +9,20 @@ const AIMessageBubble = ({ role, content, timestamp }) => {
       className={`flex w-full ${isUser ? 'justify-end' : 'justify-start'}`}
     >
       {!isUser && (
-        <div className="mr-2 mt-1 flex h-7 w-7 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-300 via-sky-300 to-violet-300 text-[13px] shadow-soft-xl">
-          ☺
+        <div className="mr-2 mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-primary-100 text-primary-600 shadow-sm border border-primary-200">
+          <span className="text-sm">🤖</span>
         </div>
       )}
       <div
-        className={`max-w-[80%] rounded-3xl px-3 py-2 text-xs sm:text-sm ${
-          isUser
-            ? 'bg-emerald-400/80 text-emerald-950 rounded-br-sm'
-            : 'glass text-slate-100 rounded-bl-sm'
-        }`}
+        className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-sm ${isUser
+          ? 'bg-gradient-to-br from-primary-600 to-indigo-600 text-white rounded-br-sm'
+          : 'bg-surface-50 border border-surface-100 text-text-primary rounded-bl-sm'
+          }`}
       >
-        <p className="whitespace-pre-wrap">{content}</p>
+        <p className="whitespace-pre-wrap leading-relaxed">{content}</p>
         {timestamp && (
-          <p className="mt-1 text-[10px] opacity-70 text-right">
-            {new Date(timestamp).toLocaleTimeString()}
+          <p className={`mt-1 text-[10px] text-right ${isUser ? 'text-indigo-100/80' : 'text-text-light'}`}>
+            {new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </p>
         )}
       </div>

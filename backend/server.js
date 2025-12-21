@@ -21,16 +21,17 @@ import healthLogRoutes from './routes/healthLogRoutes.js';
 import symptomRoutes from './routes/symptomRoutes.js';
 import wellnessTaskRoutes from './routes/wellnessTaskRoutes.js';
 import bmiRoutes from './routes/bmiRoutes.js';
+import assessmentRoutes from './routes/assessmentRoutes.js';
 
 const app = express();
 
 // CORS configuration
 const corsOptions = {
   origin: function (origin, callback) {
-    const allowedOrigins = process.env.FRONTEND_URL 
+    const allowedOrigins = process.env.FRONTEND_URL
       ? process.env.FRONTEND_URL.split(',').map(url => url.trim())
       : ['http://localhost:5173', 'http://localhost:3000'];
-    
+
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
@@ -65,6 +66,7 @@ app.use('/api/health-log', healthLogRoutes);
 app.use('/api/symptoms', symptomRoutes);
 app.use('/api/tasks', wellnessTaskRoutes);
 app.use('/api/bmi', bmiRoutes);
+app.use('/api/assessments', assessmentRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err);

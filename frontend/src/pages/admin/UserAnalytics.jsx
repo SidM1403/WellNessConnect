@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import api from '../../api/api.js';
-import LoadingSkeleton from '../../components/LoadingSkeleton.jsx';
+import { UserActivityChart, RegistrationsChart, UserStatusChart } from './Charts.jsx';
+import OverviewCard from './OverviewCards.jsx';
 
 const UserAnalytics = () => {
   const [data, setData] = useState(null);
@@ -23,19 +24,17 @@ const UserAnalytics = () => {
     fetchData();
   }, [period]);
 
-  if (loading) return <LoadingSkeleton />;
-
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-50 mb-2">User Engagement Analytics</h1>
-          <p className="text-slate-400">Track user activity and registrations</p>
+          <h1 className="text-2xl font-bold font-display text-text-primary">User Engagement Analytics</h1>
+          <p className="text-text-secondary mt-1">Track user activity and registrations</p>
         </div>
         <select
           value={period}
           onChange={(e) => setPeriod(e.target.value)}
-          className="glass rounded-xl px-4 py-2 text-slate-50 border border-white/10"
+          className="px-4 py-2 bg-white border border-surface-200 rounded-xl text-text-primary shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20"
         >
           <option value="7">Last 7 Days</option>
           <option value="30">Last 30 Days</option>
@@ -43,21 +42,29 @@ const UserAnalytics = () => {
         </select>
       </div>
 
-      {/* Charts temporarily disabled to avoid extra charting dependencies */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="glass rounded-2xl p-6 border border-slate-700/60"
-      >
-        <h2 className="text-xl font-semibold text-slate-50 mb-2">Charts temporarily disabled</h2>
-        <p className="text-sm text-slate-400">
-          User counts and analytics data are still available in the numeric cards above. Visual
-          charts were removed to simplify the frontend and avoid additional charting libraries.
-        </p>
-      </motion.div>
+      {loading ? (
+        <div className="grid gap-6 lg:grid-cols-2">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="bg-white rounded-3xl border border-surface-200 p-6 animate-pulse h-[300px]" />
+          ))}
+        </div>
+      ) : (
+        <div className="space-y-6">
+          <div className="grid gap-6 md:grid-cols-3">
+            <OverviewCard label="Total Users" value={data?.totalUsers || 0} type="totalUsers" />
+            <OverviewCard label="New (Period)" value={data?.newUsersPeriod || 0} type="activeUsers" />
+            <OverviewCard label="Active" value={data?.activeUsers || 0} type="activeUsers" />
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            <UserActivityChart data={data?.dau || []} />
+            <RegistrationsChart data={data?.newRegistrations || []} />
+            <UserStatusChart data={data?.userStatusDistribution || []} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default UserAnalytics;
-

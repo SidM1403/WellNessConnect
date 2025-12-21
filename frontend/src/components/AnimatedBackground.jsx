@@ -1,109 +1,87 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 const AnimatedBackground = () => {
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 600], [0, -80]);
-  const opacity = useTransform(scrollY, [0, 400], [1, 0.7]);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
-
-  // Generate random positions for floating shapes
-  const generateRandomPosition = () => ({
-    top: `${Math.random() * 100}%`,
-    left: `${Math.random() * 100}%`,
-    size: `${Math.random() * 200 + 100}px`,
-    delay: Math.random() * 5,
-    duration: Math.random() * 10 + 10,
-    opacity: Math.random() * 0.3 + 0.1,
-  });
-
-  const shapes = Array.from({ length: 5 }, (_, i) => generateRandomPosition());
-
   return (
-    <motion.div
-      style={{ y, opacity }}
-      aria-hidden="true"
-      className={`pointer-events-none fixed inset-0 -z-10 overflow-hidden transition-opacity duration-1000 ${
-        isLoaded ? 'opacity-100' : 'opacity-0'
-      }`}
-    >
-      {/* Main background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-sky-50 via-purple-50 to-teal-50" />
+    <div className="fixed inset-0 -z-50 overflow-hidden bg-surface-50">
+      {/* Background Gradient Base */}
+      <div className="absolute inset-0 bg-gradient-main opacity-80" />
 
-      {/* Animated gradient blobs */}
-      {shapes.map((shape, i) => (
+      {/* Floating Shapes */}
+      <div className="absolute inset-0 opacity-40">
+        {/* Blob 1 - Top Left */}
         <motion.div
-          key={i}
-          className={`absolute rounded-full filter blur-3xl ${
-            i % 3 === 0
-              ? 'bg-gradient-to-r from-sky-400 to-blue-500'
-              : i % 2 === 0
-              ? 'bg-gradient-to-r from-purple-400 to-pink-500'
-              : 'bg-gradient-to-r from-teal-400 to-emerald-500'
-          }`}
-          style={{
-            width: shape.size,
-            height: shape.size,
-            top: shape.top,
-            left: shape.left,
-            opacity: shape.opacity,
-          }}
           animate={{
             y: [0, -40, 0],
-            x: [0, Math.random() * 40 - 20, 0],
+            x: [0, 20, 0],
+            rotate: [0, 10, 0],
+            scale: [1, 1.1, 1],
           }}
           transition={{
-            duration: shape.duration,
+            duration: 15,
             repeat: Infinity,
             repeatType: 'reverse',
-            ease: 'easeInOut',
-            delay: shape.delay,
+            ease: "easeInOut"
           }}
+          className="absolute -top-20 -left-20 w-96 h-96 bg-primary-200 rounded-full blur-[80px]"
         />
-      ))}
 
-      {/* Subtle grid pattern */}
-      <div 
-        className="absolute inset-0"
+        {/* Blob 2 - Bottom Right */}
+        <motion.div
+          animate={{
+            y: [0, 50, 0],
+            x: [0, -30, 0],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            repeatType: 'reverse',
+            ease: "easeInOut"
+          }}
+          className="absolute -bottom-32 -right-32 w-[600px] h-[600px] bg-accent-200 rounded-full blur-[100px]"
+        />
+
+        {/* Blob 3 - Center Right */}
+        <motion.div
+          animate={{
+            y: [0, -30, 0],
+            x: [0, 40, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            repeatType: 'reverse',
+            ease: "easeInOut"
+          }}
+          className="absolute top-1/2 -right-40 w-80 h-80 bg-secondary-200/50 rounded-full blur-[60px]"
+        />
+
+        {/* Blob 4 - Center Left */}
+        <motion.div
+          animate={{
+            y: [0, 60, 0],
+            x: [0, -20, 0],
+          }}
+          transition={{
+            duration: 22,
+            repeat: Infinity,
+            repeatType: 'reverse',
+            ease: "easeInOut"
+          }}
+          className="absolute bottom-1/3 -left-20 w-72 h-72 bg-primary-100 rounded-full blur-[70px]"
+        />
+      </div>
+
+      {/* Subtle Grid Pattern Overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
         style={{
-          backgroundImage: "url(" + "data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2338bdf8' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E" + ")",
-          backgroundSize: '60px 60px',
+          backgroundImage: `linear-gradient(#6366f1 1px, transparent 1px), linear-gradient(90deg, #6366f1 1px, transparent 1px)`,
+          backgroundSize: '100px 100px'
         }}
       />
-
-      {/* Subtle noise texture */}
-      <div 
-        className="absolute inset-0"
-        style={{
-          backgroundImage: "url(" + "data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E" + ")",
-          backgroundSize: '200px 200px',
-        }}
-      />
-
-      {/* Animated gradient border */}
-      <motion.div 
-        className="absolute inset-0 bg-gradient-to-r from-transparent via-sky-100/50 to-transparent"
-        animate={{
-          backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-        }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          ease: 'linear',
-        }}
-        style={{
-          WebkitMaskImage: 'linear-gradient(90deg, transparent, white 20%, white 80%, transparent)',
-          maskImage: 'linear-gradient(90deg, transparent, white 20%, white 80%, transparent)',
-        }}
-      />
-    </motion.div>
+    </div>
   );
 };
 
 export default AnimatedBackground;
-
-

@@ -13,6 +13,7 @@ import {
   X
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
+import { FaSpa } from 'react-icons/fa';
 
 const menuItems = [
   { path: '/admin', icon: LayoutDashboard, label: 'Overview' },
@@ -36,13 +37,18 @@ const AdminLayout = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-surface-50">
       {/* Mobile Header */}
-      <div className="lg:hidden sticky top-0 z-50 glass border-b border-white/10 p-4 flex items-center justify-between">
-        <h1 className="text-lg font-semibold text-slate-50">Admin Dashboard</h1>
+      <div className="lg:hidden sticky top-0 z-50 glass border-b border-surface-200 p-4 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full bg-gradient-primary flex items-center justify-center text-white shadow-lg shadow-primary-500/30">
+            <FaSpa className="w-4 h-4" />
+          </div>
+          <span className="font-display font-bold text-lg text-text-primary">Admin</span>
+        </div>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 rounded-lg hover:bg-white/10 text-slate-300"
+          className="p-2 rounded-lg hover:bg-surface-100 text-text-secondary"
         >
           {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -55,15 +61,20 @@ const AdminLayout = () => {
           animate={{
             x: sidebarOpen || isDesktop ? 0 : -280
           }}
-          className="fixed lg:static inset-y-0 left-0 z-40 w-64 glass border-r border-white/10 lg:border-r-0 lg:translate-x-0"
+          className="fixed lg:static inset-y-0 left-0 z-40 w-64 bg-white border-r border-surface-200 lg:border-r-0 lg:translate-x-0 shadow-xl lg:shadow-none"
         >
-          <div className="h-full flex flex-col p-4">
-            <div className="mb-8 hidden lg:block">
-              <h1 className="text-xl font-bold text-slate-50 mb-2">Admin Panel</h1>
-              <p className="text-xs text-slate-400">WellConnect Analytics</p>
+          <div className="h-full flex flex-col p-6">
+            <div className="mb-8 hidden lg:flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center text-white shadow-lg shadow-primary-500/30">
+                <FaSpa className="w-5 h-5" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold font-display text-text-primary">Admin Panel</h1>
+                <p className="text-xs text-text-light font-medium">WellConnect Analytics</p>
+              </div>
             </div>
 
-            <nav className="flex-1 space-y-1">
+            <nav className="flex-1 space-y-2">
               {menuItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = location.pathname === item.path;
@@ -72,28 +83,27 @@ const AdminLayout = () => {
                     key={item.path}
                     to={item.path}
                     onClick={() => setSidebarOpen(false)}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
-                      isActive
-                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                        : 'text-slate-300 hover:bg-white/5 hover:text-slate-50'
-                    }`}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium ${isActive
+                      ? 'bg-primary-50 text-indigo-600 shadow-sm border border-primary-100'
+                      : 'text-text-secondary hover:bg-surface-50 hover:text-primary-600'
+                      }`}
                   >
-                    <Icon size={20} />
-                    <span className="text-sm font-medium">{item.label}</span>
+                    <Icon size={20} className={isActive ? 'text-primary-600' : ''} />
+                    <span className="text-sm">{item.label}</span>
                   </Link>
                 );
               })}
             </nav>
 
-            <div className="pt-4 border-t border-white/10">
-              <div className="px-4 py-2 mb-2">
-                <p className="text-xs text-slate-400">Logged in as</p>
-                <p className="text-sm font-medium text-slate-50">{user?.name}</p>
-                <p className="text-xs text-slate-400">{user?.email}</p>
+            <div className="pt-6 border-t border-surface-200">
+              <div className="px-4 py-2 mb-4 bg-surface-50 rounded-xl border border-surface-100">
+                <p className="text-xs text-text-light uppercase tracking-wide font-bold mb-1">Logged in as</p>
+                <p className="text-sm font-bold text-text-primary truncate">{user?.name}</p>
+                <p className="text-xs text-text-secondary truncate">{user?.email}</p>
               </div>
               <button
                 onClick={logout}
-                className="w-full px-4 py-2 rounded-xl bg-red-500/20 text-red-300 hover:bg-red-500/30 transition-colors text-sm font-medium"
+                className="w-full px-4 py-2.5 rounded-xl border border-surface-200 text-text-secondary hover:bg-surface-50 hover:text-primary-600 transition-colors text-sm font-bold flex items-center justify-center gap-2"
               >
                 Logout
               </button>
@@ -104,13 +114,13 @@ const AdminLayout = () => {
         {/* Overlay for mobile */}
         {sidebarOpen && (
           <div
-            className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-30 lg:hidden"
             onClick={() => setSidebarOpen(false)}
           />
         )}
 
         {/* Main Content */}
-        <main className="flex-1 lg:ml-0 p-4 lg:p-8">
+        <main className="flex-1 lg:ml-0 p-6 lg:p-10 overflow-x-hidden">
           <Outlet />
         </main>
       </div>
@@ -119,4 +129,3 @@ const AdminLayout = () => {
 };
 
 export default AdminLayout;
-

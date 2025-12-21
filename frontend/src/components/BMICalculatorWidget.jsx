@@ -59,77 +59,83 @@ const BMICalculatorWidget = () => {
   };
 
   return (
-    <div className="glass rounded-3xl p-4 sm:p-5 space-y-3">
+    <div className="card-premium p-6 space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-[11px] uppercase tracking-wide text-emerald-200/80">
-            BMI calculator
+          <p className="text-xs uppercase tracking-wide text-primary-500 font-bold">
+            BMI Calculator
           </p>
-          <p className="text-sm text-slate-200">
-            Simple body mass index estimate based on height and weight.
+          <p className="text-sm text-text-secondary mt-1">
+            Simple body mass index estimate.
           </p>
         </div>
       </div>
 
-      <form onSubmit={handleCalculate} className="grid grid-cols-2 gap-3 text-xs sm:text-sm">
-        <div className="space-y-1">
-          <label className="block text-slate-300">Height (cm)</label>
+      <form onSubmit={handleCalculate} className="grid grid-cols-2 gap-4 text-sm">
+        <div className="space-y-1.5">
+          <label className="block font-medium text-text-secondary">Height (cm)</label>
           <input
             type="number"
             min="50"
             max="250"
             value={heightCm}
             onChange={(e) => setHeightCm(e.target.value)}
-            className="w-full rounded-xl bg-slate-900/60 border border-white/10 px-3 py-2 text-slate-100"
+            className="w-full rounded-xl bg-surface-50 border border-surface-200 px-4 py-2.5 text-text-primary focus:ring-2 focus:ring-primary-300 focus:border-transparent outline-none transition-all placeholder:text-text-light"
+            placeholder="e.g. 175"
           />
         </div>
-        <div className="space-y-1">
-          <label className="block text-slate-300">Weight (kg)</label>
+        <div className="space-y-1.5">
+          <label className="block font-medium text-text-secondary">Weight (kg)</label>
           <input
             type="number"
             min="10"
             max="350"
             value={weightKg}
             onChange={(e) => setWeightKg(e.target.value)}
-            className="w-full rounded-xl bg-slate-900/60 border border-white/10 px-3 py-2 text-slate-100"
+            className="w-full rounded-xl bg-surface-50 border border-surface-200 px-4 py-2.5 text-text-primary focus:ring-2 focus:ring-primary-300 focus:border-transparent outline-none transition-all placeholder:text-text-light"
+            placeholder="e.g. 70"
           />
         </div>
-        <div className="col-span-2">
-          {error && <p className="text-xs text-red-300 mb-1">{error}</p>}
+        <div className="col-span-2 pt-2">
+          {error && <p className="text-xs text-coral-500 bg-coral-50 p-2 rounded-lg mb-2">{error}</p>}
           <button
             type="submit"
             disabled={saving}
-            className="inline-flex items-center justify-center rounded-xl bg-emerald-300 px-4 py-2 text-xs sm:text-sm font-semibold text-emerald-950 shadow-soft-xl hover:bg-emerald-200 transition disabled:opacity-60"
+            className="w-full inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-primary-500 to-primary-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-primary-500/20 hover:shadow-primary-500/40 hover:-translate-y-0.5 transition-all disabled:opacity-60 disabled:shadow-none disabled:translate-y-0"
           >
-            {saving ? 'Calculating...' : 'Calculate & save BMI'}
+            {saving ? 'Calculating...' : 'Calculate & Save'}
           </button>
         </div>
       </form>
 
       {loading ? (
-        <p className="text-xs text-slate-400">Loading latest BMI...</p>
+        <p className="text-xs text-text-light animate-pulse">Loading latest BMI...</p>
       ) : result ? (
-        <div className="space-y-1 text-sm">
-          <p className="text-slate-200">
-            BMI: <span className="font-semibold">{result.bmi}</span>
-          </p>
-          <p className="text-slate-200">
-            Category: <span className="font-semibold">{categoryLabel(result.category)}</span>
-          </p>
-          <p className="text-[11px] text-slate-400">
-            Recorded on {new Date(result.createdAt).toLocaleDateString()}
-          </p>
+        <div className="p-4 rounded-xl bg-surface-50 border border-surface-100 flex items-center justify-between">
+          <div>
+            <p className="text-xs text-text-light uppercase tracking-wide font-semibold">Result</p>
+            <p className="text-2xl font-bold text-text-primary mt-1">{result.bmi}</p>
+          </div>
+          <div className="text-right">
+            <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${result.category === 'normal' ? 'bg-emerald-50 text-emerald-600' :
+                result.category === 'underweight' ? 'bg-amber-50 text-amber-600' :
+                  'bg-coral-50 text-coral-600'
+              }`}>
+              {categoryLabel(result.category)}
+            </span>
+            <p className="text-xs text-text-light mt-1">
+              {new Date(result.createdAt).toLocaleDateString()}
+            </p>
+          </div>
         </div>
       ) : (
-        <p className="text-xs text-slate-400">
-          No BMI recorded yet. Enter your height and weight to calculate.
+        <p className="text-xs text-text-light text-center py-2">
+          Enter height and weight to see your result.
         </p>
       )}
 
-      <div className="rounded-xl border border-white/5 bg-slate-900/60 p-3 text-[11px] text-slate-300">
-        BMI is a general indicator, not a diagnosis. It does not account for muscle mass,
-        body composition, or individual health circumstances. Always discuss concerns with a
-        licensed healthcare professional.
+      <div className="text-[10px] text-text-light leading-snug">
+        BMI is a general indicator, not a diagnosis. Always discuss concerns with a healthcare professional.
       </div>
     </div>
   );

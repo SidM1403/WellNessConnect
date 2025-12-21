@@ -18,13 +18,13 @@ const MoodSelector = ({ onSubmit, todayMood }) => {
   const selected = useMemo(() => moods.find((m) => m.value === Number(value)), [value]);
 
   return (
-    <div className="glass rounded-3xl p-4 sm:p-5 space-y-4">
+    <div className="card-premium p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-[11px] uppercase tracking-wide text-emerald-200/80">
-            Mood check-in
+          <p className="text-xs uppercase tracking-wide text-primary-500 font-bold">
+            Mood Check-in
           </p>
-          <p className="text-sm text-slate-200">How are you feeling today?</p>
+          <p className="text-sm text-text-secondary mt-1">How are you feeling today?</p>
         </div>
         <AnimatePresence mode="popLayout">
           <motion.div
@@ -32,44 +32,51 @@ const MoodSelector = ({ onSubmit, todayMood }) => {
             initial={{ scale: 0.85, opacity: 0, rotate: -8 }}
             animate={{ scale: 1, opacity: 1, rotate: 0 }}
             exit={{ scale: 0.85, opacity: 0, rotate: 6 }}
-            className="text-2xl"
+            className="text-4xl filter drop-shadow-md"
           >
             {selected?.emoji}
           </motion.div>
         </AnimatePresence>
       </div>
 
-      <input
-        type="range"
-        min="1"
-        max="5"
-        step="1"
-        value={value}
-        onChange={(e) => setValue(Number(e.target.value))}
-        className="w-full accent-emerald-300"
-      />
-      <div className="flex items-center justify-between text-[11px] text-slate-300">
-        {moods.map((m) => (
-          <span key={m.value} className={m.value === selected?.value ? 'text-emerald-200' : ''}>
-            {m.label}
-          </span>
-        ))}
+      <div className="space-y-4">
+        <input
+          type="range"
+          min="1"
+          max="5"
+          step="1"
+          value={value}
+          onChange={(e) => setValue(Number(e.target.value))}
+          className="w-full h-2 bg-surface-200 rounded-lg appearance-none cursor-pointer accent-primary-500"
+        />
+        <div className="flex justify-between text-xs font-medium text-text-light">
+          {moods.map((m) => (
+            <span
+              key={m.value}
+              className={`transition-colors duration-200 ${m.value === selected?.value ? 'text-primary-600 font-bold scale-110' : ''
+                }`}
+            >
+              {m.label}
+            </span>
+          ))}
+        </div>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center justify-between gap-3 pt-2">
         <button
           onClick={() => onSubmit?.(selected.value)}
-          className="rounded-full bg-emerald-300/90 px-4 py-2 text-sm font-semibold text-emerald-950 hover:bg-emerald-200 transition-colors"
+          className="flex-1 rounded-xl bg-gradient-to-r from-primary-500 to-primary-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary-500/20 hover:shadow-primary-500/40 hover:-translate-y-0.5 transition-all"
         >
-          Save mood
+          Save Mood
         </button>
-        {todayMood && (
-          <p className="text-xs text-slate-400">
-            Today logged • {todayMood.value}/5 at{' '}
-            {new Date(todayMood.createdAt).toLocaleTimeString()}
-          </p>
-        )}
       </div>
+
+      {todayMood && (
+        <p className="text-xs text-center text-text-light pt-2 border-t border-surface-200">
+          Last logged: <span className="font-medium text-text-primary">{todayMood.value}/5</span> at{' '}
+          {new Date(todayMood.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        </p>
+      )}
     </div>
   );
 };

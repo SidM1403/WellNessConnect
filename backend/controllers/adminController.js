@@ -10,7 +10,7 @@ import Session from '../models/Session.js';
 export const getOverview = async (req, res, next) => {
   try {
     console.log('[Admin Overview] Request received from user:', req.user?.email);
-    
+
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
     sevenDaysAgo.setHours(0, 0, 0, 0);
@@ -29,7 +29,12 @@ export const getOverview = async (req, res, next) => {
         console.error('[Admin Overview] Error counting users:', err);
         return 0;
       }),
-      User.countDocuments({ createdAt: { $gte: sevenDaysAgo } }).catch(err => {
+      User.countDocuments({
+        $or: [
+          { lastLogin: { $gte: sevenDaysAgo } },
+          { createdAt: { $gte: sevenDaysAgo } }
+        ]
+      }).catch(err => {
         console.error('[Admin Overview] Error counting active users:', err);
         return 0;
       }),
@@ -64,9 +69,9 @@ export const getOverview = async (req, res, next) => {
     res.json(response);
   } catch (err) {
     console.error('[Admin Overview] Unexpected error:', err);
-    res.status(500).json({ 
+    res.status(500).json({
       error: 'Failed to fetch overview data',
-      message: err.message 
+      message: err.message
     });
   }
 };
@@ -79,12 +84,19 @@ export const getUserAnalytics = async (req, res, next) => {
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - days);
 
-    // Daily Active Users (DAU)
+    // Daily Active Users (DAU) - Users who logged in or registered
     const dau = await User.aggregate([
-      { $match: { createdAt: { $gte: startDate } } },
+      {
+        $match: {
+          $or: [
+            { lastLogin: { $gte: startDate } },
+            { createdAt: { $gte: startDate } }
+          ]
+        }
+      },
       {
         $group: {
-          _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+          _id: { $dateToString: { format: '%Y-%m-%d', date: '$lastLogin' } },
           count: { $sum: 1 }
         }
       },
@@ -95,8 +107,13 @@ export const getUserAnalytics = async (req, res, next) => {
     // Weekly Active Users
     const wau = await User.aggregate([
       {
+        $match: {
+          lastLogin: { $gte: startDate }
+        }
+      },
+      {
         $group: {
-          _id: { $week: '$createdAt' },
+          _id: { $week: '$lastLogin' },
           count: { $sum: 1 }
         }
       },
@@ -126,18 +143,8 @@ export const getUserAnalytics = async (req, res, next) => {
       { name: 'Inactive', value: inactiveUsersCount, count: inactiveUsersCount }
     ];
 
-    // Login activity (using Session model if available, otherwise use user createdAt as proxy)
-    const loginActivity = await Session.aggregate([
-      { $match: { createdAt: { $gte: startDate } } },
-      {
-        $group: {
-          _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
-          count: { $sum: 1 }
-        }
-      },
-      { $sort: { _id: 1 } },
-      { $project: { date: '$_id', logins: '$count', _id: 0 } }
-    ]).catch(() => []);
+    // Login activity fallback (since we don't have a separate Login History table, we approximate using lastLogin distribution)
+    const loginActivity = dau.map(d => ({ date: d.date, logins: d.users }));
 
     res.json({
       dau,
@@ -334,11 +341,11 @@ export const getAllUsers = async (req, res, next) => {
 
     const query = search
       ? {
-          $or: [
-            { name: { $regex: search, $options: 'i' } },
-            { email: { $regex: search, $options: 'i' } }
-          ]
-        }
+        $or: [
+          { name: { $regex: search, $options: 'i' } },
+          { email: { $regex: search, $options: 'i' } }
+        ]
+      }
       : {};
 
     const [users, total] = await Promise.all([

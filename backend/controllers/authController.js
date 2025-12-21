@@ -24,6 +24,11 @@ export const login = async (req, res, next) => {
     if (!user) return res.status(400).json({ message: 'Invalid credentials' });
     const match = await user.matchPassword(password);
     if (!match) return res.status(400).json({ message: 'Invalid credentials' });
+
+    // Update last login
+    user.lastLogin = Date.now();
+    await user.save();
+
     res.json({
       user: { id: user._id, name: user.name, email: user.email, role: user.role },
       token: generateToken(user._id, user.role)

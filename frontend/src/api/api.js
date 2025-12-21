@@ -68,7 +68,7 @@ api.interceptors.response.use(
       localStorage.removeItem('token');
       // Only redirect if not already on login/signup page
       if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/signup')) {
-        window.location.href = '/login';
+      window.location.href = '/login';
       }
     } else if (status === 403) {
       console.warn('[API] Forbidden - user may not have required permissions');

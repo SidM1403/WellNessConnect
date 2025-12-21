@@ -2,40 +2,38 @@ import { motion } from 'framer-motion';
 
 const AIModeToggle = ({ mode, onChange }) => {
   return (
-    <div className="inline-flex rounded-full bg-slate-900/60 border border-white/10 p-1 text-[11px]">
+    <div className="inline-flex rounded-full bg-surface-100 p-1 text-[12px] font-medium border border-surface-200">
       <button
         onClick={() => onChange('fitness')}
-        className={`relative px-3 py-1.5 rounded-full transition-colors ${
-          mode === 'fitness'
-            ? 'text-emerald-950'
-            : 'text-slate-300 hover:text-emerald-200'
-        }`}
+        className={`relative px-4 py-1.5 rounded-full transition-all ${mode === 'fitness'
+            ? 'text-primary-700 shadow-sm'
+            : 'text-text-secondary hover:text-text-primary'
+          }`}
       >
         {mode === 'fitness' && (
           <motion.span
             layoutId="ai-mode-pill"
-            className="absolute inset-0 rounded-full bg-emerald-300"
+            className="absolute inset-0 rounded-full bg-white border border-surface-200"
             transition={{ type: 'spring', stiffness: 300, damping: 24 }}
           />
         )}
-        <span className="relative">Fitness coach</span>
+        <span className="relative z-10">Fitness Coach</span>
       </button>
       <button
         onClick={() => onChange('health')}
-        className={`relative px-3 py-1.5 rounded-full transition-colors ${
-          mode === 'health'
-            ? 'text-emerald-950'
-            : 'text-slate-300 hover:text-emerald-200'
-        }`}
+        className={`relative px-4 py-1.5 rounded-full transition-all ${mode === 'health'
+            ? 'text-teal-700 shadow-sm'
+            : 'text-text-secondary hover:text-text-primary'
+          }`}
       >
         {mode === 'health' && (
           <motion.span
             layoutId="ai-mode-pill"
-            className="absolute inset-0 rounded-full bg-sky-300"
+            className="absolute inset-0 rounded-full bg-white border border-surface-200"
             transition={{ type: 'spring', stiffness: 300, damping: 24 }}
           />
         )}
-        <span className="relative">Health checkup</span>
+        <span className="relative z-10">Health Checkup</span>
       </button>
     </div>
   );

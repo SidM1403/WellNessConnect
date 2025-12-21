@@ -1,110 +1,193 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import api from '../api/api.js';
-import ArticleSearchBar from '../components/ArticleSearchBar.jsx';
-import ArticleList from '../components/ArticleList.jsx';
-import ArticleEmptyState from '../components/ArticleEmptyState.jsx';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaSearch, FaBookMedical, FaStethoscope, FaExternalLinkAlt, FaTimes } from 'react-icons/fa';
+import api from '../api/api';
+import LoadingSkeleton from '../components/LoadingSkeleton.jsx';
 
 const MedicalArticles = () => {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
+  const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [searched, setSearched] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
 
-  const handleSearch = async (e) => {
+  const searchArticles = async (e) => {
     e?.preventDefault();
     if (!query.trim()) return;
 
     setLoading(true);
-    setError('');
-    setSearched(true);
-
+    setHasSearched(true);
     try {
-      const { data } = await api.get('/articles/search', {
-        params: { q: query.trim() }
-      });
-      setResults(data.articles || []);
+      // Append context to query if not present to improve relevance
+      const searchQuery = query.toLowerCase().includes('medical') || query.toLowerCase().includes('health')
+        ? query
+        : `${query} medical health article`;
+
+      const { data } = await api.get(`/articles/search?q=${searchQuery}`);
+      // Ensure we map 'link' to the UI; backend returns 'link', not 'url'
+      // Normalizing data here just in case
+      const validArticles = (data.articles || []).map(a => ({
+        ...a,
+        url: a.link || a.url // fallback
+      }));
+      setArticles(validArticles);
     } catch (err) {
-      console.error('Article search failed', err);
-      const message = err.response?.data?.message || 'Unable to fetch articles right now.';
-      setError(message);
-      setResults([]);
+      console.error('Failed to search articles', err);
     } finally {
       setLoading(false);
     }
   };
 
+  const clearSearch = () => {
+    setQuery('');
+    setArticles([]);
+    setHasSearched(false);
+  };
+
   return (
-    <div className="space-y-6">
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="glass rounded-3xl p-5 sm:p-6 space-y-3"
-      >
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <p className="text-[11px] uppercase tracking-wide text-emerald-200/80">Medical Articles Search</p>
-            <h1 className="text-xl sm:text-2xl font-semibold text-slate-50">Discover trusted health resources</h1>
-            <p className="mt-1 text-sm text-slate-200/90">
-              Search the web for credible medical and wellness articles. We only redirect you to the original sources and never store article content.
-            </p>
-          </div>
-          <div className="hidden sm:block rounded-full border border-white/10 px-3 py-2 text-[11px] text-emerald-100 bg-emerald-300/10">
-            Safe search on
-          </div>
+    <div className="pt-28 pb-16 min-h-screen">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {/* Header & Search */}
+        <div className="text-center space-y-8 mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-100 text-primary-600 text-sm font-semibold tracking-wide uppercase"
+          >
+            <FaBookMedical />
+            <span>Verified Medical Resources</span>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-5xl font-display font-bold text-text-primary"
+          >
+            Find reliable health information
+          </motion.h1>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="max-w-2xl mx-auto relative z-20"
+          >
+            <form onSubmit={searchArticles} className="relative group">
+              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                <FaSearch className="text-text-light group-focus-within:text-primary-500 transition-colors" />
+              </div>
+              <input
+                type="text"
+                placeholder="Search articles (e.g., 'Anxiety Relief', 'Sleep Hygiene')..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                className="w-full pl-12 pr-12 py-5 rounded-2xl bg-white border border-surface-200 shadow-card focus:shadow-soft-xl focus:border-primary-300 focus:outline-none focus:ring-4 focus:ring-primary-50 text-lg transition-all text-gray-900 placeholder:text-gray-400"
+              />
+              {query && (
+                <button
+                  type="button"
+                  onClick={clearSearch}
+                  className="absolute inset-y-0 right-4 flex items-center text-text-light hover:text-text-secondary transition-colors"
+                >
+                  <FaTimes />
+                </button>
+              )}
+            </form>
+          </motion.div>
         </div>
 
-        <ArticleSearchBar
-          value={query}
-          onChange={setQuery}
-          onSubmit={handleSearch}
-          loading={loading}
-        />
+        {/* Results Area */}
+        {loading ? (
+          <div className="grid gap-6 md:grid-cols-2">
+            <LoadingSkeleton height="h-64" />
+            <LoadingSkeleton height="h-64" />
+          </div>
+        ) : (
+          <div className="space-y-12">
+            {!hasSearched ? (
+              /* Empty State / Suggestions */
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="grid gap-6 md:grid-cols-3"
+              >
+                {[
+                  { title: "Mental Wellness", count: "120+ Articles", color: "bg-primary-50 text-primary-600" },
+                  { title: "Physical Health", count: "85+ Articles", color: "bg-accent-50 text-accent-600" },
+                  { title: "Sleep Science", count: "40+ Articles", color: "bg-secondary-50 text-secondary-600" }
+                ].map((cat, i) => (
+                  <div key={i} onClick={() => { setQuery(cat.title); searchArticles(); }} className="cursor-pointer group p-6 rounded-3xl bg-white border border-surface-200 hover:border-primary-200 hover:shadow-soft transition-all text-center">
+                    <div className={`w-16 h-16 mx-auto rounded-full ${cat.color} flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform`}>
+                      <FaStethoscope />
+                    </div>
+                    <h3 className="font-bold text-text-primary text-lg">{cat.title}</h3>
+                    <p className="text-text-light text-sm mt-1">{cat.count}</p>
+                  </div>
+                ))}
+              </motion.div>
+            ) : (
+              <>
+                {articles.length > 0 ? (
+                  <div className="grid gap-6 md:grid-cols-2">
+                    {articles.map((article, index) => (
+                      <motion.a
+                        key={article.id || index}
+                        href={article.url || article.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.05 }}
+                        className="block bg-white rounded-3xl p-6 border border-surface-200 shadow-sm hover:shadow-card hover:-translate-y-1 transition-all group flex flex-col justify-between h-full"
+                      >
+                        <div>
+                          <div className="flex items-start justify-between mb-4">
+                            <span className="px-3 py-1 rounded-full bg-surface-100 text-xs font-semibold text-text-secondary">Medical Article</span>
+                            <span className="p-2 rounded-full bg-surface-50 text-text-light group-hover:bg-primary-50 group-hover:text-primary-600 transition-colors">
+                              <FaExternalLinkAlt className="w-3.5 h-3.5" />
+                            </span>
+                          </div>
+                          <h3 className="text-xl font-bold text-text-primary mb-3 line-clamp-2 group-hover:text-primary-600 transition-colors">{article.title}</h3>
+                          <p className="text-text-secondary text-sm leading-relaxed line-clamp-3 mb-6">
+                            {article.description || article.snippet || article.content?.substring(0, 150) + "..."}
+                          </p>
+                        </div>
+                        <div className="pt-4 border-t border-surface-100 flex items-center gap-2">
+                          <div className="w-6 h-6 rounded-full bg-surface-200 flex items-center justify-center text-[10px] text-text-secondary font-bold uppercase">
+                            {article.source?.[0] || 'W'}
+                          </div>
+                          <span className="text-xs font-medium text-text-light">{article.source || 'Verified Source'}</span>
+                        </div>
+                      </motion.a>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-20 bg-surface-50 rounded-3xl border border-surface-100">
+                    <p className="text-text-secondary text-lg">No articles found matching "{query}".</p>
+                    <p className="text-text-light text-sm mt-2">Try searching for broader terms like "Stress" or "Yoga".</p>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        )}
 
-        <div className="rounded-xl border border-white/5 bg-slate-900/60 p-4 text-xs text-slate-300">
-          <p className="font-semibold text-slate-100">Disclaimer</p>
-          <p className="mt-1">
-            This feature only redirects to external medical resources. This platform does not provide medical advice or diagnosis.
-            Please consult licensed professionals for personal medical concerns.
+        {/* Disclaimer - Floating Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="mt-16 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-100 rounded-2xl p-6 text-center max-w-3xl mx-auto"
+        >
+          <p className="text-sm text-amber-800/80 font-medium">
+            Disclaimer: Content on WellConnect is for informational purposes only and does not constitute medical advice. Always consult a professional for medical concerns.
           </p>
-        </div>
-      </motion.div>
+        </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="glass rounded-3xl p-5 sm:p-6 space-y-4"
-      >
-        <div className="flex items-center justify-between gap-3">
-          <div>
-            <p className="text-[11px] uppercase tracking-wide text-emerald-200/80">Results</p>
-            <h2 className="text-lg font-semibold text-slate-50">
-              {results.length ? `${results.length} article${results.length > 1 ? 's' : ''} found` : 'Browse health insights'}
-            </h2>
-          </div>
-          {loading && <span className="text-xs text-emerald-200 animate-pulse">Fetching articles...</span>}
-        </div>
-
-        {error && (
-          <div className="rounded-xl border border-red-400/30 bg-red-500/10 p-3 text-sm text-red-100">
-            {error}
-          </div>
-        )}
-
-        {!loading && results.length > 0 && <ArticleList results={results} />}
-
-        {!loading && !results.length && searched && (
-          <ArticleEmptyState message="No articles matched that search. Try a more specific health topic." />
-        )}
-
-        {!loading && !searched && (
-          <ArticleEmptyState message="Start by searching for symptoms, conditions, healthy habits, or wellness topics." />
-        )}
-      </motion.div>
+      </div>
     </div>
   );
 };
 
 export default MedicalArticles;
-

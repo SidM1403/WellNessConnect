@@ -9,7 +9,8 @@ const userSchema = new mongoose.Schema(
     role: { type: String, enum: ['user', 'admin'], default: 'user' },
     status: { type: String, enum: ['active', 'suspended'], default: 'active' },
     bio: { type: String, default: '' },
-    avatar: { type: String, default: '' }
+    avatar: { type: String, default: '' },
+    lastLogin: { type: Date, default: Date.now }
   },
   { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } }
 );

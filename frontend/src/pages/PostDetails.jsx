@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import api from '../api/api.js';
 import LoadingSkeleton from '../components/LoadingSkeleton.jsx';
+import { FaHeart, FaRegHeart, FaRegComment, FaUserCircle } from 'react-icons/fa';
 
 const PostDetails = () => {
   const { id } = useParams();
@@ -67,114 +68,143 @@ const PostDetails = () => {
 
   if (loading && !post) {
     return (
-      <div className="glass rounded-3xl p-6">
-        <LoadingSkeleton />
+      <div className="pt-24 max-w-4xl mx-auto px-4">
+        <div className="card-premium p-6">
+          <LoadingSkeleton />
+        </div>
       </div>
     );
   }
 
   if (!post) {
-    return <p className="text-sm text-red-300">{error || 'Post not found.'}</p>;
+    return (
+      <div className="pt-32 text-center">
+        <p className="text-lg text-coral-500 font-medium">{error || 'Post not found.'}</p>
+      </div>
+    );
   }
 
   return (
-    <div className="space-y-5">
+    <div className="pt-24 max-w-4xl mx-auto px-4 pb-12 space-y-6">
       <motion.article
-        className="glass rounded-3xl p-5 sm:p-6"
+        className="card-premium p-6 sm:p-8"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <header className="flex items-start justify-between gap-4">
-          <div>
-            <p className="text-[11px] uppercase tracking-wide text-emerald-200/80">
-              {post.anonymous ? 'Anonymous' : post.author?.name || 'Community member'}
-            </p>
-            <h1 className="mt-1 text-xl sm:text-2xl font-semibold text-slate-50">
-              {post.title}
-            </h1>
+        <header className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
+          <div className="flex gap-4">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-100 to-indigo-100 flex items-center justify-center text-primary-600 shadow-sm">
+              <FaUserCircle className="w-7 h-7" />
+            </div>
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold font-display text-text-primary leading-tight">
+                {post.title}
+              </h1>
+              <p className="mt-1 text-sm font-medium text-text-secondary flex items-center gap-2">
+                <span>{post.anonymous ? 'Anonymous' : post.author?.name || 'Community member'}</span>
+                <span className="w-1 h-1 rounded-full bg-gray-300"></span>
+                <span className="text-text-light">{new Date(post.createdAt).toLocaleDateString()}</span>
+              </p>
+            </div>
           </div>
-          <button
-            type="button"
-            className="relative inline-flex items-center gap-1.5 rounded-full border border-rose-300/50 bg-rose-400/15 px-3 py-1 text-[11px] text-rose-100 like-pulse"
+
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             onClick={handleLike}
-            data-active={likeBusy ? 'true' : 'false'}
+            disabled={likeBusy}
+            className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-all ${likeBusy
+                ? 'bg-rose-50 text-rose-300 cursor-not-allowed'
+                : 'bg-rose-50 text-rose-500 hover:bg-rose-100 hover:text-rose-600 shadow-sm hover:shadow-md'
+              }`}
           >
-            <svg
-              className="h-3.5 w-3.5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-            >
-              <path
-                d="M12.1 5.1C10.3 3.3 7.4 3.4 5.7 5.1C3.9 6.9 3.9 9.7 5.7 11.5L12 17.8L18.3 11.5C20.1 9.7 20.1 6.9 18.3 5.1C16.6 3.4 13.7 3.3 11.9 5.1L12 5.2L12.1 5.1Z"
-                fill="currentColor"
-              />
-            </svg>
-            <span>{post.likes ?? 0} gentle likes</span>
-          </button>
+            {likeBusy ? <FaHeart className="w-4 h-4 animate-pulse" /> : <FaRegHeart className="w-4 h-4" />}
+            <span>{post.likes ?? 0} Likes</span>
+          </motion.button>
         </header>
 
-        <p className="mt-4 text-sm text-slate-200/95 whitespace-pre-wrap">{post.content}</p>
-
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          {post.tags?.map((t) => (
-            <span
-              key={t}
-              className="inline-flex rounded-full border border-emerald-300/40 bg-emerald-400/10 px-2.5 py-0.5 text-[10px] font-medium text-emerald-100"
-            >
-              {t}
-            </span>
-          ))}
+        <div className="prose prose-slate max-w-none">
+          <p className="text-lg text-text-primary leading-relaxed whitespace-pre-wrap">{post.content}</p>
         </div>
+
+        {post.tags?.length > 0 && (
+          <div className="mt-6 flex flex-wrap gap-2">
+            {post.tags.map((t) => (
+              <span
+                key={t}
+                className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-600 border border-emerald-100"
+              >
+                #{t}
+              </span>
+            ))}
+          </div>
+        )}
       </motion.article>
 
       <motion.section
-        className="glass rounded-3xl p-5 sm:p-6 space-y-4"
+        className="card-premium p-6 sm:p-8"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.05 }}
+        transition={{ delay: 0.1 }}
       >
-        <div className="flex items-center justify-between gap-2">
-          <h2 className="text-sm font-semibold text-slate-100">Reflections</h2>
-          <p className="text-[11px] text-slate-400">
-            {post.comments?.length || 0} shared moments
-          </p>
+        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-surface-200">
+          <div className="p-2 bg-indigo-50 rounded-lg text-indigo-500">
+            <FaRegComment className="w-5 h-5" />
+          </div>
+          <h2 className="text-xl font-bold text-text-primary">
+            Reflections <span className="ml-2 text-sm font-normal text-text-light">({post.comments?.length || 0})</span>
+          </h2>
         </div>
 
-        <form onSubmit={handleComment} className="space-y-2">
-          <textarea
-            value={commentText}
-            onChange={(e) => setCommentText(e.target.value)}
-            placeholder="Gently share how this resonates with you…"
-            className="w-full rounded-2xl border border-slate-700/70 bg-slate-950/60 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:border-emerald-300/60 outline-none"
-            rows={3}
-          />
-          <div className="flex items-center justify-between gap-2">
-            {error && <p className="text-[11px] text-red-300">{error}</p>}
-            <button
-              type="submit"
-              className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-emerald-400/90 px-3 py-1.5 text-[11px] font-semibold text-emerald-950 hover:bg-emerald-300 transition-colors"
-            >
-              <span>Send reflection</span>
-            </button>
+        <form onSubmit={handleComment} className="mb-8">
+          <div className="relative">
+            <textarea
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+              placeholder="Share your thoughts gently..."
+              className="w-full min-h-[100px] p-4 rounded-xl bg-surface-50 border border-surface-200 text-text-primary placeholder:text-text-light focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all resize-y"
+            />
+            <div className="absolute bottom-3 right-3 flex items-center justify-between gap-3">
+              {error && <p className="text-xs text-coral-500 font-medium">{error}</p>}
+              <button
+                type="submit"
+                disabled={!commentText.trim()}
+                className="px-4 py-2 rounded-lg bg-primary-600 text-white text-sm font-semibold shadow-lg shadow-primary-500/30 hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              >
+                Send Reflection
+              </button>
+            </div>
           </div>
         </form>
 
-        <div className="mt-3 space-y-3">
-          {(post.comments || []).map((c) => (
-            <motion.div
-              key={c._id || c.createdAt}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="rounded-2xl border border-white/5 bg-slate-950/60 px-3 py-2.5"
-            >
-              <p className="text-[11px] font-medium text-emerald-100">
-                {c.user?.name || 'Member'}
-              </p>
-              <p className="mt-1 text-xs text-slate-200/95">{c.text}</p>
-            </motion.div>
-          ))}
+        <div className="space-y-4">
+          {post.comments?.length === 0 ? (
+            <p className="text-center text-text-light py-8 italic">No comments yet. Be the first to share your thoughts.</p>
+          ) : (
+            post.comments.map((c) => (
+              <motion.div
+                key={c._id || c.createdAt}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="bg-surface-50 rounded-2xl p-5 border border-surface-100"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center text-indigo-500 text-xs font-bold">
+                      {c.user?.name?.[0] || 'M'}
+                    </div>
+                    <p className="font-semibold text-text-primary text-sm">
+                      {c.user?.name || 'Community Member'}
+                    </p>
+                  </div>
+                  <span className="text-xs text-text-light">
+                    {c.createdAt ? new Date(c.createdAt).toLocaleDateString() : 'Just now'}
+                  </span>
+                </div>
+                <p className="text-text-secondary text-sm leading-relaxed pl-10">{c.text}</p>
+              </motion.div>
+            ))
+          )}
         </div>
       </motion.section>
     </div>
@@ -182,5 +212,3 @@ const PostDetails = () => {
 };
 
 export default PostDetails;
-
-

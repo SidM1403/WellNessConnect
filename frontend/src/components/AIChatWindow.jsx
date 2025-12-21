@@ -48,20 +48,20 @@ const AIChatWindow = () => {
   const sendMessage = async (e) => {
     e?.preventDefault();
     if (!input.trim() || loading) return;
-    
+
     const userMsg = {
       role: 'user',
       content: input,
       createdAt: new Date().toISOString()
     };
-    
+
     // Add user message to the chat
     setMessages(prev => [...prev, userMsg]);
     setInput('');
     setTyping(true);
     setLoading(true);
     setError('');
-    
+
     try {
       // Check if we have a connection to the backend
       if (!isConnected) {
@@ -77,15 +77,15 @@ const AIChatWindow = () => {
         }, 1000);
         return;
       }
-      
+
       // If online, try to send the message to the backend
       try {
-        const { data } = await api.post('/ai/chat', { 
-          mode, 
-          message: userMsg.content, 
-          chatId 
+        const { data } = await api.post('/ai/chat', {
+          mode,
+          message: userMsg.content,
+          chatId
         });
-        
+
         setChatId(data.chatId);
         setMessages(prev => [...prev, {
           role: 'assistant',
@@ -106,26 +106,26 @@ const AIChatWindow = () => {
   };
 
   return (
-    <div className="glass rounded-3xl p-4 sm:p-5 flex flex-col h-[520px] max-h-[70vh]">
-      <div className="flex items-center justify-between gap-3 mb-3">
+    <div className="bg-white rounded-3xl shadow-xl border border-surface-200 p-4 sm:p-6 flex flex-col h-[600px] max-h-[75vh]">
+      <div className="flex items-center justify-between gap-3 mb-6 border-b border-surface-100 pb-4">
         <div>
-          <p className="text-[11px] uppercase tracking-wide text-emerald-200/80">
-            AI wellness companion
+          <p className="text-[11px] uppercase tracking-wider font-bold text-primary-600 mb-1">
+            AI Wellness Companion
           </p>
-          <p className="text-xs text-slate-300">
-            Gentle fitness and health-check reflections. No diagnoses, ever.
+          <p className="text-xs text-text-secondary">
+            Gentle reflections. No diagnoses.
           </p>
         </div>
         <AIModeToggle mode={mode} onChange={setMode} />
       </div>
-      
+
       {!isConnected && (
-        <div className="bg-yellow-500/20 border border-yellow-500/50 text-yellow-100 text-sm p-3 rounded-lg mb-4">
-          Note: You're in offline mode. Some features may be limited.
+        <div className="bg-amber-50 border border-amber-200 text-amber-700 text-sm p-3 rounded-xl mb-4 flex items-center gap-2">
+          <span>⚠️</span> Note: You're in offline mode. Some features may be limited.
         </div>
       )}
-      
-      <div className="flex-1 overflow-y-auto mb-4 space-y-4" ref={listRef}>
+
+      <div className="flex-1 overflow-y-auto mb-4 space-y-4 pr-2 scrollbar-thin scrollbar-thumb-surface-300 scrollbar-track-transparent" ref={listRef}>
         {messages.map((message, index) => (
           <AIMessageBubble
             key={index}
@@ -136,34 +136,34 @@ const AIChatWindow = () => {
         ))}
         {typing && <TypingIndicator />}
       </div>
-      
+
       {error && (
-        <div className="text-red-400 text-sm mb-2 text-center">
+        <div className="text-red-500 text-sm mb-2 text-center bg-red-50 py-1 px-3 rounded-full mx-auto w-fit">
           {error}
         </div>
       )}
-      
-      <form onSubmit={sendMessage} className="flex gap-2 mt-auto">
-        <div className="relative flex-1">
+
+      <form onSubmit={sendMessage} className="flex gap-2 mt-auto pt-2">
+        <div className="relative flex-1 group">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type your message..."
-            className="w-full bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 py-3 pr-12 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+            className="w-full bg-surface-50 border border-surface-200 rounded-2xl px-5 py-3.5 pr-12 text-text-primary placeholder:text-text-light focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all shadow-sm"
             disabled={loading}
           />
           <button
             type="submit"
             disabled={!input.trim() || loading}
-            className="absolute right-2 top-1/2 -translate-y-1/2 text-blue-400 hover:text-blue-300 disabled:opacity-50 disabled:cursor-not-allowed p-2"
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-primary-500 hover:text-primary-600 disabled:opacity-40 disabled:cursor-not-allowed p-2 transition-colors"
           >
             <FiSend className="w-5 h-5" />
           </button>
         </div>
       </form>
-      
-      <p className="text-xs text-slate-400 mt-2 text-center">
+
+      <p className="text-[10px] text-text-light mt-3 text-center">
         AI responses are for informational purposes only and not medical advice.
       </p>
     </div>

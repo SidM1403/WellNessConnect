@@ -27,6 +27,10 @@ import Contact from './pages/Contact.jsx';
 import MedicalArticles from './pages/MedicalArticles.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import AdminRoute from './components/AdminRoute.jsx';
+import AssessmentIntro from './pages/AssessmentIntro.jsx';
+import AssessmentQuiz from './pages/AssessmentQuiz.jsx';
+import AssessmentResult from './pages/AssessmentResult.jsx';
+import AllAssessments from './pages/AllAssessments.jsx';
 
 const App = () => {
   const location = useLocation();
@@ -38,96 +42,96 @@ const App = () => {
       {!isAdminRoute && <Navbar />}
       <main className={isAdminRoute ? '' : 'relative z-10 flex-1 w-full max-w-6xl mx-auto px-4 py-6 md:py-10'}>
         <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/medical-articles" element={<MedicalArticles />} />
-        <Route path="/forum" element={<Forum />} />
-        <Route path="/forum/:id" element={<PostDetails />} />
-        <Route path="/resources" element={<Resources />} />
-        <Route 
-          path="/ai-chat" 
-          element={
-            <ProtectedRoute>
-              <AIAssistant />
-            </ProtectedRoute>
-          } 
-        />
-        <Route
-          path="/guided-activities"
-          element={
-            <ProtectedRoute>
-              <GuidedActivities />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/challenges"
-          element={
-            <ProtectedRoute>
-              <Challenges />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/journal"
-          element={
-            <ProtectedRoute>
-              <Journal />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/settings"
-          element={
-            <ProtectedRoute>
-              <Settings />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/about-wellness" element={<AboutWellness />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route
-          path="/ai-assistant"
-          element={
-            <ProtectedRoute>
-              <AIAssistant />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/profile/:id"
-          element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/*"
-          element={
-            <AdminRoute>
-              <AdminLayout />
-            </AdminRoute>
-          }
-        >
-          <Route index element={<AdminDashboardPage />} />
-          <Route path="users" element={<UserAnalytics />} />
-          <Route path="wellness" element={<WellnessTrends />} />
-          <Route path="forums" element={<ForumAnalytics />} />
-          <Route path="ai" element={<AIAnalytics />} />
-          <Route path="manage" element={<UserManagement />} />
-        </Route>
-        <Route path="*" element={<Navigate to="/" />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/medical-articles" element={<MedicalArticles />} />
+          <Route path="/forum" element={<Forum />} />
+          <Route path="/forum/:id" element={<PostDetails />} />
+          <Route path="/resources" element={<Resources />} />
+          <Route
+            path="/ai-chat"
+            element={
+              <ProtectedRoute>
+                <AIAssistant />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/guided-activities"
+            element={
+              <ProtectedRoute>
+                <GuidedActivities />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/challenges"
+            element={
+              <ProtectedRoute>
+                <Challenges />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/journal"
+            element={
+              <ProtectedRoute>
+                <Journal />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <Settings />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/about-wellness" element={<AboutWellness />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route
+            path="/ai-assistant"
+            element={
+              <ProtectedRoute>
+                <AIAssistant />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile/:id"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/admin/*" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+            <Route index element={<AdminDashboardPage />} />
+            <Route path="users" element={<UserAnalytics />} />
+            <Route path="wellness" element={<WellnessTrends />} />
+            <Route path="forums" element={<ForumAnalytics />} />
+            <Route path="ai" element={<AIAnalytics />} />
+            <Route path="manage" element={<UserManagement />} />
+          </Route>
+
+          {/* Assessment Routes */}
+          <Route path="/assessments/:id" element={<AssessmentIntro />} />
+          <Route path="/assessments/:id/quiz" element={<AssessmentQuiz />} />
+          <Route path="/assessments/:id/result" element={<AssessmentResult />} />
+          <Route path="/assessments" element={<AllAssessments />} />
+
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>
       {!isAdminRoute && <Footer />}
