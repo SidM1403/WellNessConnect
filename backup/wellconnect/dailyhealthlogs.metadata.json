@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"user":{"$numberInt":"1"},"date":{"$numberInt":"1"}},"name":"user_1_date_1","background":true,"unique":true}],"uuid":"a3b89f84c6734d9fb20cbbceecf0b673","collectionName":"dailyhealthlogs","type":"collection"}
