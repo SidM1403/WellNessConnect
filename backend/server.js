@@ -24,22 +24,18 @@ import bmiRoutes from './routes/bmiRoutes.js';
 
 const app = express();
 
-// CORS configuration - allow localhost for development, or use env variable for production
+// CORS configuration
 const corsOptions = {
   origin: function (origin, callback) {
-    // Get allowed origins from environment variable (comma-separated) or use defaults
     const allowedOrigins = process.env.FRONTEND_URL 
       ? process.env.FRONTEND_URL.split(',').map(url => url.trim())
-      : process.env.VERCEL_URL
-        ? [`https://${process.env.VERCEL_URL}`, 'http://localhost:5173', 'http://localhost:3000']
-        : ['http://localhost:5173', 'http://localhost:3000'];
+      : ['http://localhost:5173', 'http://localhost:3000'];
     
-    // Allow requests with no origin (like mobile apps, curl, or serverless functions)
-    if (!origin || allowedOrigins.includes(origin) || allowedOrigins.some(url => origin.includes(url.replace('https://', '').replace('http://', '')))) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      // In production, be more strict
-      callback(null, process.env.NODE_ENV === 'production' ? false : true);
+      callback(null, true); // For development, allow all origins
     }
   },
   credentials: true,
@@ -76,23 +72,32 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message: err.message || 'Server Error' });
 });
 
-// Connect to database (only in non-serverless environments or when running locally)
-if (process.env.VERCEL !== '1') {
-  const PORT = process.env.PORT || 5000;
-  connectDB().then(() => {
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-  });
-} else {
-  // For Vercel serverless, connect DB on first request
-  let dbConnected = false;
-  app.use(async (req, res, next) => {
-    if (!dbConnected) {
-      await connectDB();
-      dbConnected = true;
-    }
-    next();
-  });
-}
+// Connect to database and start server
+const PORT = process.env.PORT || 5000;
 
-// Export the app for Vercel serverless functions
-export default app;
+connectDB()
+  .then(() => {
+    const server = app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+
+    // Handle port already in use error
+    server.on('error', (err) => {
+      if (err.code === 'EADDRINUSE') {
+        console.error(`\n❌ Port ${PORT} is already in use!`);
+        console.error('\n💡 Solutions:');
+        console.error(`   1. Kill the process using port ${PORT}:`);
+        console.error(`      Windows: netstat -ano | findstr :${PORT}`);
+        console.error(`      Then: taskkill /PID <PID> /F`);
+        console.error(`   2. Or change PORT in .env file to another number (e.g., 5001)`);
+        console.error(`   3. Or close the other terminal/window running the server\n`);
+        process.exit(1);
+      } else {
+        throw err;
+      }
+    });
+  })
+  .catch((err) => {
+    console.error('Failed to start server:', err);
+    process.exit(1);
+  });

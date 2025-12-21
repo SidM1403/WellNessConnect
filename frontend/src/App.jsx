@@ -10,7 +10,6 @@ import Forum from './pages/Forum.jsx';
 import PostDetails from './pages/PostDetails.jsx';
 import Resources from './pages/Resources.jsx';
 import Profile from './pages/Profile.jsx';
-import AdminDashboard from './pages/AdminDashboard.jsx';
 import AdminLayout from './pages/admin/AdminLayout.jsx';
 import AdminDashboardPage from './pages/admin/Dashboard.jsx';
 import UserAnalytics from './pages/admin/UserAnalytics.jsx';

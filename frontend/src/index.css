@@ -13,12 +13,8 @@
 
 @layer base {
   body {
-    @apply bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-200;
+    @apply bg-slate-900 text-slate-100;
     min-height: 100vh;
-  }
-  
-  /* Dark mode gradient overlay */
-  .dark body {
     background-image: 
       radial-gradient(at 0% 0%, rgba(34, 211, 238, 0.1) 0px, transparent 50%),
       radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.1) 0px, transparent 50%),

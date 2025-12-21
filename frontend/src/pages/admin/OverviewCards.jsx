@@ -10,11 +10,11 @@ const iconMap = {
 };
 
 const colorClasses = {
-  totalUsers: { bg: 'bg-blue-50', text: 'text-blue-600' },
-  activeUsers: { bg: 'bg-emerald-50', text: 'text-emerald-600' },
-  totalForumPosts: { bg: 'bg-purple-50', text: 'text-purple-600' },
-  totalAiChats: { bg: 'bg-pink-50', text: 'text-pink-600' },
-  averageBMI: { bg: 'bg-orange-50', text: 'text-orange-600' }
+  totalUsers: { bg: 'bg-blue-500/20', text: 'text-blue-400', border: 'border-blue-500/30' },
+  activeUsers: { bg: 'bg-emerald-500/20', text: 'text-emerald-400', border: 'border-emerald-500/30' },
+  totalForumPosts: { bg: 'bg-purple-500/20', text: 'text-purple-400', border: 'border-purple-500/30' },
+  totalAiChats: { bg: 'bg-pink-500/20', text: 'text-pink-400', border: 'border-pink-500/30' },
+  averageBMI: { bg: 'bg-orange-500/20', text: 'text-orange-400', border: 'border-orange-500/30' }
 };
 
 const OverviewCard = ({ label, value, type }) => {
@@ -25,7 +25,7 @@ const OverviewCard = ({ label, value, type }) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow"
+      className={`bg-slate-800/50 backdrop-blur-lg rounded-xl border ${colors.border} p-6 hover:bg-slate-800/70 transition-all`}
     >
       <div className="flex items-center justify-between mb-4">
         <div className={`p-2 rounded-lg ${colors.bg}`}>
@@ -33,8 +33,8 @@ const OverviewCard = ({ label, value, type }) => {
         </div>
       </div>
       <div className="space-y-1">
-        <p className="text-3xl font-semibold text-gray-900">{value}</p>
-        <p className="text-sm text-gray-500">{label}</p>
+        <p className="text-3xl font-semibold text-slate-100">{value}</p>
+        <p className="text-sm text-slate-400">{label}</p>
       </div>
     </motion.div>
   );

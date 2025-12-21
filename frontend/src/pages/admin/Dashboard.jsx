@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import OverviewCard from './OverviewCards.jsx';
-import { UserActivityChart, RegistrationsChart, BMICategoriesChart } from './Charts.jsx';
+import { UserActivityChart, RegistrationsChart, BMICategoriesChart, UserStatusChart, ForumPostsChart } from './Charts.jsx';
 import adminApi from '../../services/adminApi.js';
 
 const Dashboard = () => {
   const [overview, setOverview] = useState(null);
   const [userAnalytics, setUserAnalytics] = useState(null);
   const [wellnessTrends, setWellnessTrends] = useState(null);
+  const [forumAnalytics, setForumAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -19,7 +20,7 @@ const Dashboard = () => {
       try {
         console.log('[Dashboard] Fetching all data...');
         
-        const [overviewData, userData, wellnessData] = await Promise.all([
+        const [overviewData, userData, wellnessData, forumData] = await Promise.all([
           adminApi.getOverview().catch(err => {
             console.error('[Dashboard] Overview error:', err);
             return null;
@@ -30,6 +31,10 @@ const Dashboard = () => {
           }),
           adminApi.getWellnessTrends().catch(err => {
             console.error('[Dashboard] Wellness trends error:', err);
+            return null;
+          }),
+          adminApi.getForumAnalytics('7').catch(err => {
+            console.error('[Dashboard] Forum analytics error:', err);
             return null;
           })
         ]);
@@ -42,6 +47,9 @@ const Dashboard = () => {
         }
         if (wellnessData) {
           setWellnessTrends(wellnessData);
+        }
+        if (forumData) {
+          setForumAnalytics(forumData);
         }
 
         if (!overviewData && !userData && !wellnessData) {
@@ -63,9 +71,9 @@ const Dashboard = () => {
       <div className="space-y-6">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 animate-pulse">
-              <div className="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
-              <div className="h-8 bg-gray-200 rounded w-1/2"></div>
+            <div key={i} className="bg-slate-800/50 backdrop-blur-lg rounded-xl border border-slate-700/50 p-6 animate-pulse">
+              <div className="h-4 bg-slate-700 rounded w-3/4 mb-4"></div>
+              <div className="h-8 bg-slate-700 rounded w-1/2"></div>
             </div>
           ))}
         </div>
@@ -75,14 +83,14 @@ const Dashboard = () => {
 
   if (error && !overview) {
     return (
-      <div className="bg-white rounded-lg shadow-sm border border-red-200 p-8 text-center">
-        <div className="text-red-600 mb-2">
+      <div className="bg-slate-800/50 backdrop-blur-lg rounded-xl border border-red-500/30 p-8 text-center">
+        <div className="text-red-400 mb-2">
           <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
           </svg>
         </div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">Failed to Load Data</h3>
-        <p className="text-gray-600 mb-4">{error}</p>
+        <h3 className="text-lg font-semibold text-slate-100 mb-2">Failed to Load Data</h3>
+        <p className="text-slate-400 mb-4">{error}</p>
         <button
           onClick={() => window.location.reload()}
           className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -97,8 +105,8 @@ const Dashboard = () => {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-500 mt-1">Analytics overview</p>
+        <h1 className="text-2xl font-bold text-slate-100">Dashboard</h1>
+        <p className="text-slate-400 mt-1">Analytics overview</p>
       </div>
 
       {/* Overview Cards */}
@@ -140,6 +148,12 @@ const Dashboard = () => {
         {userAnalytics?.newRegistrations && userAnalytics.newRegistrations.length > 0 && (
           <RegistrationsChart data={userAnalytics.newRegistrations} />
         )}
+        {userAnalytics?.userStatusDistribution && userAnalytics.userStatusDistribution.length > 0 && (
+          <UserStatusChart data={userAnalytics.userStatusDistribution} />
+        )}
+        {forumAnalytics?.postsPerDay && forumAnalytics.postsPerDay.length > 0 && (
+          <ForumPostsChart data={forumAnalytics.postsPerDay} />
+        )}
       </div>
 
       {wellnessTrends?.bmiDistribution && wellnessTrends.bmiDistribution.length > 0 && (
@@ -152,8 +166,8 @@ const Dashboard = () => {
       {overview && 
        (!userAnalytics || Object.keys(userAnalytics).length === 0) &&
        (!wellnessTrends || Object.keys(wellnessTrends).length === 0) && (
-        <div className="bg-gray-50 rounded-lg border border-gray-200 p-8 text-center">
-          <p className="text-gray-500">No analytics data available yet</p>
+        <div className="bg-slate-800/50 backdrop-blur-lg rounded-xl border border-slate-700/50 p-8 text-center">
+          <p className="text-slate-400">No analytics data available yet</p>
         </div>
       )}
     </div>

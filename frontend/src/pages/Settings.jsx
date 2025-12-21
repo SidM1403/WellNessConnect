@@ -28,13 +28,14 @@ const Settings = () => {
 
   const applyPrefs = (preferences) => {
     if (!preferences) return;
-    document.documentElement.dataset.theme = preferences.darkMode ? 'dark' : 'light';
+    // Dark theme is always on, only apply reduced motion preference
     document.body.classList.toggle('reduced-motion', !!preferences.reducedMotion);
   };
 
   const updatePrefs = async (changes) => {
     try {
-      const { data } = await api.put('/preferences', { ...prefs, ...changes });
+      // Force darkMode to always be true
+      const { data } = await api.put('/preferences', { ...prefs, ...changes, darkMode: true });
       setPrefs(data.preferences);
       applyPrefs(data.preferences);
     } catch (e) {
@@ -56,24 +57,19 @@ const Settings = () => {
             {error && <p className="text-xs text-red-300">{error}</p>}
             <div className="flex flex-wrap gap-2 text-xs">
               <button
-                onClick={() => updatePrefs({ darkMode: !prefs?.darkMode })}
-                className="rounded-full border border-white/10 px-3 py-2"
-              >
-                Dark mode: {prefs?.darkMode ? 'On' : 'Off'}
-              </button>
-              <button
                 onClick={() => updatePrefs({ reducedMotion: !prefs?.reducedMotion })}
-                className="rounded-full border border-white/10 px-3 py-2"
+                className="rounded-full border border-slate-600 bg-slate-800/50 px-3 py-2 hover:bg-slate-700/50 transition-colors"
               >
                 Motion: {prefs?.reducedMotion ? 'Reduced' : 'Full'}
               </button>
               <button
                 onClick={() => updatePrefs({ layout: prefs?.layout === 'cozy' ? 'balanced' : 'cozy' })}
-                className="rounded-full border border-white/10 px-3 py-2"
+                className="rounded-full border border-slate-600 bg-slate-800/50 px-3 py-2 hover:bg-slate-700/50 transition-colors"
               >
                 Layout: {prefs?.layout || 'balanced'}
               </button>
             </div>
+            <p className="text-xs text-slate-400 mt-2">Dark theme is always enabled.</p>
           </>
         )}
       </div>

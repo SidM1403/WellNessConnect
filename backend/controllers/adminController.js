@@ -118,6 +118,14 @@ export const getUserAnalytics = async (req, res, next) => {
       { $project: { date: '$_id', registrations: '$count', _id: 0 } }
     ]);
 
+    // Active vs Inactive users (pie chart data)
+    const activeUsersCount = await User.countDocuments({ status: 'active' });
+    const inactiveUsersCount = await User.countDocuments({ status: 'suspended' });
+    const userStatusDistribution = [
+      { name: 'Active', value: activeUsersCount, count: activeUsersCount },
+      { name: 'Inactive', value: inactiveUsersCount, count: inactiveUsersCount }
+    ];
+
     // Login activity (using Session model if available, otherwise use user createdAt as proxy)
     const loginActivity = await Session.aggregate([
       { $match: { createdAt: { $gte: startDate } } },
@@ -135,6 +143,7 @@ export const getUserAnalytics = async (req, res, next) => {
       dau,
       wau,
       newRegistrations,
+      userStatusDistribution,
       loginActivity: loginActivity.length > 0 ? loginActivity : newRegistrations.map(r => ({ ...r, logins: r.registrations }))
     });
   } catch (err) {

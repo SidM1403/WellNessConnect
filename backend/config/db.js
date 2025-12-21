@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const connectDB = async () => {
   const uri = process.env.MONGO_URI || 'mongodb://localhost:27017/wellconnect';
   try {
-    // Check if already connected (for serverless environments)
+    // Check if already connected
     if (mongoose.connection.readyState === 1) {
       console.log('MongoDB already connected');
       return;
@@ -12,13 +12,8 @@ const connectDB = async () => {
     console.log('MongoDB connected');
   } catch (err) {
     console.error('MongoDB connection error', err.message);
-    // Don't exit in serverless environments
-    if (process.env.VERCEL !== '1') {
-      process.exit(1);
-    }
-    throw err;
+    process.exit(1);
   }
 };
 
 export default connectDB;
-
