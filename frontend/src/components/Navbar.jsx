@@ -40,6 +40,9 @@ const Navbar = () => {
     ];
 
     if (user) {
+      if (user.role === 'admin') {
+        baseLinks.push({ to: '/admin', label: 'Admin Panel', icon: <FaUserCircle /> });
+      }
       baseLinks.push(
         { to: '/dashboard', label: 'Dashboard' },
         { to: '/ai-assistant', label: 'AI Assistant', icon: <FaRobot /> }
