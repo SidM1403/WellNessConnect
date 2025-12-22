@@ -7,7 +7,7 @@ console.log('[API] Using base URL:', baseURL);
 
 const api = axios.create({
   baseURL,
-  timeout: 10000, // 10 second timeout
+  timeout: 60000, // 60 second timeout
   headers: {
     'Content-Type': 'application/json',
   },
@@ -48,7 +48,7 @@ api.interceptors.response.use(
     const response = error.response;
     const errorMessage = response?.data?.message || error.message || 'Network Error';
     const status = response?.status;
-    
+
     console.error(`[API] Error ${status || 'NO_STATUS'} from ${error.config?.url}:`, {
       message: errorMessage,
       status,
@@ -61,19 +61,19 @@ api.interceptors.response.use(
         data: error.config?.data
       }
     });
-    
+
     // Handle specific error statuses
     if (status === 401) {
       console.warn('[API] Unauthorized - clearing token');
       localStorage.removeItem('token');
       // Only redirect if not already on login/signup page
       if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/signup')) {
-      window.location.href = '/login';
+        window.location.href = '/login';
       }
     } else if (status === 403) {
       console.warn('[API] Forbidden - user may not have required permissions');
     }
-    
+
     // Preserve original error for better debugging, but provide message
     const wrappedError = new Error(errorMessage);
     wrappedError.status = status;
