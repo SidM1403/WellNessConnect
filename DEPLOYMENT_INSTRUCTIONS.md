@@ -242,7 +242,7 @@ After redeploy, test that frontend can access backend:
 
 **Optional:**
 - `FRONTEND_URL` - Your Vercel frontend URL
-- `HUGGINGFACE_API_KEY` - For AI features (optional)
+- `HUGGINGFACE_API_KEY` - Get free token from [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)
 
 ### Frontend (Vercel):
 

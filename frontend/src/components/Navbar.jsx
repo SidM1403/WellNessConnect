@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FaRobot, FaUserCircle, FaSignOutAlt, FaBars, FaTimes, FaSpa } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 
+
 const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ const Navbar = () => {
       { to: '/', label: 'Home' },
       { to: '/about-wellness', label: 'About' },
       { to: '/medical-articles', label: 'Start Reading' },
+      { to: '/games', label: 'Brain Games' },
       { to: '/forum', label: 'Forum' },
       { to: '/contact', label: 'Contact' },
     ];
@@ -58,7 +60,7 @@ const Navbar = () => {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, type: 'spring', bounce: 0.3 }}
-        className={`fixed left-0 right-0 z-50 mx-auto max-w-6xl w-[95%] md:w-full transition-all duration-300 ${isScrolled ? 'top-4' : 'top-8'
+        className={`fixed left-0 right-0 z-50 mx-auto w-[98%] transition-all duration-300 ${isScrolled ? 'top-4' : 'top-6'
           }`}
       >
         <div className={`backdrop-blur-xl rounded-full pl-5 pr-2 py-2.5 flex items-center justify-between shadow-soft-xl border border-white/60 transition-all duration-300 ${isScrolled ? 'bg-white/90 shadow-lg' : 'bg-white/70'}`}>
@@ -79,13 +81,15 @@ const Navbar = () => {
           <div className="hidden md:flex items-center gap-1 flex-1 justify-center">
             <div className="flex items-center bg-surface-100/50 rounded-full p-1 border border-white/40">
               {getNavLinks().map((link) => (
-                <NavLink key={link.to} to={link.to} isHighlighted={!!link.icon}>
+                <NavLink key={link.to} to={link.to} isHighlighted={!!link.icon} isSpecial={link.isSpecial}>
                   {link.icon && <span className="mr-1.5">{link.icon}</span>}
                   {link.label}
                 </NavLink>
               ))}
             </div>
           </div>
+
+
 
           {/* User / Auth */}
           <div className="hidden md:flex items-center gap-3 ml-2">
@@ -174,9 +178,21 @@ const Navbar = () => {
 };
 
 // NavLink Component
-const NavLink = ({ to, children, isHighlighted }) => {
+const NavLink = ({ to, children, isHighlighted, isSpecial }) => {
   const location = useLocation();
-  const isActive = location.pathname === to;
+  const isActive = location.pathname === to || (to !== '/' && location.pathname.startsWith(to));
+
+  if (isSpecial) {
+    return (
+      <Link to={to} className="relative px-4 py-1.5 ml-1 mr-1 group">
+        <div className={`absolute inset-0 rounded-full transition-all duration-300 ${isActive ? 'bg-gradient-to-r from-violet-500 to-fuchsia-600 shadow-md' : 'bg-gradient-to-r from-violet-100 to-fuchsia-100 group-hover:from-violet-200 group-hover:to-fuchsia-200'}`} />
+        <span className={`relative z-10 text-sm font-bold flex items-center gap-1.5 transition-colors duration-300 ${isActive ? 'text-white' : 'text-violet-700'}`}>
+          <span className="text-lg">🧠</span>
+          {children}
+        </span>
+      </Link>
+    );
+  }
 
   return (
     <Link to={to} className="relative px-5 py-2 group">

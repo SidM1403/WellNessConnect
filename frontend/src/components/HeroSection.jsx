@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import AnimatedButton from './AnimatedButton.jsx';
 import { Link } from 'react-router-dom';
+import GlitchText from './GlitchText';
 
 const HeroSection = () => {
   return (
@@ -22,7 +23,7 @@ const HeroSection = () => {
         <div className="grid gap-12 lg:grid-cols-2 items-center">
 
           {/* Text Content */}
-          <div className="space-y-8 max-w-2xl">
+          <div className="space-y-8 max-w-xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -38,17 +39,41 @@ const HeroSection = () => {
             </motion.div>
 
             <motion.h1
-              className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-text-primary leading-[1.1]"
+              className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-text-primary leading-[1.1] mb-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.5 }}
             >
-              A calm space to <br />
-              <span className="text-transparent bg-clip-text bg-gradient-primary">track, share & heal</span>
+              <GlitchText
+                speed={1}
+                enableShadows={true}
+                enableOnHover={true}
+                className="inline-block text-gray-900 mb-2 glitch-ghost"
+              >
+                A calm space to
+              </GlitchText>
+              <div className="flex flex-col items-start mt-2">
+                <GlitchText
+                  speed={1}
+                  enableShadows={true}
+                  enableOnHover={true}
+                  className="text-transparent bg-clip-text bg-gradient-primary leading-tight pb-2"
+                >
+                  track, share
+                </GlitchText>
+                <GlitchText
+                  speed={1}
+                  enableShadows={true}
+                  enableOnHover={true}
+                  className="text-transparent bg-clip-text bg-gradient-primary leading-tight pb-2"
+                >
+                  & heal
+                </GlitchText>
+              </div>
             </motion.h1>
 
             <motion.p
-              className="text-lg md:text-xl text-text-secondary leading-relaxed"
+              className="text-base md:text-lg text-text-secondary leading-relaxed max-w-lg"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
@@ -76,7 +101,7 @@ const HeroSection = () => {
 
           {/* Hero Visual/Illustration */}
           <motion.div
-            className="relative"
+            className="relative lg:pl-12"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4, duration: 0.8 }}

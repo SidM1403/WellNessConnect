@@ -8,7 +8,16 @@ import Signup from './pages/Signup.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Forum from './pages/Forum.jsx';
 import PostDetails from './pages/PostDetails.jsx';
+import GamesPage from './pages/GamesPage.jsx';
+import MemoryMatch from './components/games/MemoryMatch.jsx';
+import ReactionTime from './components/games/ReactionTime.jsx';
+import FocusTimer from './components/games/FocusTimer.jsx';
+import BreathingGame from './components/games/BreathingGame.jsx';
+import MathChallenge from './components/games/MathChallenge.jsx';
+import SequenceMemory from './components/games/SequenceMemory.jsx';
 import Resources from './pages/Resources.jsx';
+
+// ... other imports
 import Profile from './pages/Profile.jsx';
 import AdminLayout from './pages/admin/AdminLayout.jsx';
 import AdminDashboardPage from './pages/admin/Dashboard.jsx';
@@ -18,12 +27,14 @@ import ForumAnalytics from './pages/admin/ForumAnalytics.jsx';
 import AIAnalytics from './pages/admin/AIAnalytics.jsx';
 import UserManagement from './pages/admin/UserManagement.jsx';
 import AIAssistant from './pages/AIAssistant.jsx';
+import HealthAssistant from './components/HealthAssistant.jsx';
 import GuidedActivities from './pages/GuidedActivities.jsx';
 import Challenges from './pages/Challenges.jsx';
 import Journal from './pages/Journal.jsx';
 import Settings from './pages/Settings.jsx';
 import AboutWellness from './pages/AboutWellness.jsx';
 import Contact from './pages/Contact.jsx';
+import Ribbons from './components/Ribbons.jsx';
 import MedicalArticles from './pages/MedicalArticles.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import AdminRoute from './components/AdminRoute.jsx';
@@ -32,14 +43,19 @@ import AssessmentQuiz from './pages/AssessmentQuiz.jsx';
 import AssessmentResult from './pages/AssessmentResult.jsx';
 import AllAssessments from './pages/AllAssessments.jsx';
 
+
+// ... inside Routes
+
 const App = () => {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
 
   return (
     <div className="relative min-h-screen bg-surface text-slate-50">
+      <Ribbons />
       {!isAdminRoute && <AnimatedBackground />}
       {!isAdminRoute && <Navbar />}
+      {!isAdminRoute && <HealthAssistant />}
       <main className={isAdminRoute ? '' : 'relative z-10 flex-1 w-full max-w-6xl mx-auto px-4 py-6 md:py-10'}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -58,14 +74,14 @@ const App = () => {
           <Route path="/forum" element={<Forum />} />
           <Route path="/forum/:id" element={<PostDetails />} />
           <Route path="/resources" element={<Resources />} />
-          <Route
-            path="/ai-chat"
-            element={
-              <ProtectedRoute>
-                <AIAssistant />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/games" element={<GamesPage />} />
+          <Route path="/games/memory" element={<MemoryMatch />} />
+          <Route path="/games/reaction" element={<ReactionTime />} />
+          <Route path="/games/focus" element={<FocusTimer />} />
+          <Route path="/games/breathing" element={<BreathingGame />} />
+          <Route path="/games/math" element={<MathChallenge />} />
+          <Route path="/games/sequence" element={<SequenceMemory />} />
+          {/* AI Chat Route Removed - Replaced by Floating Widget */}
           <Route
             path="/guided-activities"
             element={
@@ -100,14 +116,8 @@ const App = () => {
           />
           <Route path="/about-wellness" element={<AboutWellness />} />
           <Route path="/contact" element={<Contact />} />
-          <Route
-            path="/ai-assistant"
-            element={
-              <ProtectedRoute>
-                <AIAssistant />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/ai-assistant" element={<AIAssistant />} />
+          {/* AI Assistant Route Restored */}
           <Route
             path="/profile/:id"
             element={

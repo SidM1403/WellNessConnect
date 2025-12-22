@@ -19,6 +19,12 @@
     min-height: 100vh;
   }
 
+  input,
+  textarea,
+  select {
+    @apply text-black placeholder:text-text-light;
+  }
+
   h1,
   h2,
   h3,

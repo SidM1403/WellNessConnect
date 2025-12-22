@@ -3,6 +3,7 @@ import HeroSection from '../components/HeroSection.jsx';
 import AssessmentSection from '../components/AssessmentSection.jsx';
 import { FaHeart, FaUsers, FaBrain, FaLeaf, FaChartLine, FaComments } from 'react-icons/fa';
 
+
 const features = [
   {
     icon: <FaHeart className="w-6 h-6 text-coral-500" />,

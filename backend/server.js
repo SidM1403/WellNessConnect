@@ -22,6 +22,8 @@ import symptomRoutes from './routes/symptomRoutes.js';
 import wellnessTaskRoutes from './routes/wellnessTaskRoutes.js';
 import bmiRoutes from './routes/bmiRoutes.js';
 import assessmentRoutes from './routes/assessmentRoutes.js';
+import calorieRoutes from './routes/calorieRoutes.js';
+import gameRoutes from './routes/gameRoutes.js';
 
 const app = express();
 
@@ -67,6 +69,8 @@ app.use('/api/symptoms', symptomRoutes);
 app.use('/api/tasks', wellnessTaskRoutes);
 app.use('/api/bmi', bmiRoutes);
 app.use('/api/assessments', assessmentRoutes);
+app.use('/api/calories', calorieRoutes);
+app.use('/api/games', gameRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err);
