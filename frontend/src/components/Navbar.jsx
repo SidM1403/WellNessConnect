@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext.jsx';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaRobot, FaUserCircle, FaSignOutAlt, FaBars, FaTimes, FaSpa } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
+import ThemeToggle from './ThemeToggle.jsx';
 
 
 const Navbar = () => {
@@ -63,7 +64,7 @@ const Navbar = () => {
         className={`fixed left-0 right-0 z-50 mx-auto w-[98%] transition-all duration-300 ${isScrolled ? 'top-4' : 'top-6'
           }`}
       >
-        <div className={`backdrop-blur-xl rounded-full pl-5 pr-2 py-2.5 flex items-center justify-between shadow-soft-xl border border-white/60 transition-all duration-300 ${isScrolled ? 'bg-white/90 shadow-lg' : 'bg-white/70'}`}>
+        <div className={`backdrop-blur-xl rounded-full pl-5 pr-2 py-2.5 flex items-center justify-between shadow-soft-xl border transition-all duration-300 ${isScrolled ? 'bg-white/90 dark:bg-dark-surface-100/90 border-white/60 dark:border-dark-surface-200 shadow-lg' : 'bg-white/70 dark:bg-dark-surface-100/70 border-white/60 dark:border-dark-surface-200'}`}>
 
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group mr-8">
@@ -74,12 +75,12 @@ const Navbar = () => {
             >
               <FaSpa className="w-5 h-5" />
             </motion.div>
-            <span className="font-display font-bold text-lg text-text-primary tracking-tight group-hover:text-primary-600 transition-colors hidden sm:block">WellConnect</span>
+            <span className="font-display font-bold text-lg text-text-primary dark:text-dark-text-primary tracking-tight group-hover:text-primary-600 dark:group-hover:text-dark-primary-600 transition-colors hidden sm:block">WellConnect</span>
           </Link>
 
           {/* Desktop Links */}
           <div className="hidden md:flex items-center gap-1 flex-1 justify-center">
-            <div className="flex items-center bg-surface-100/50 rounded-full p-1 border border-white/40">
+            <div className="flex items-center bg-surface-100/50 dark:bg-dark-surface-100/50 rounded-full p-1 border border-white/40 dark:border-dark-surface-200/40">
               {getNavLinks().map((link) => (
                 <NavLink key={link.to} to={link.to} isHighlighted={!!link.icon} isSpecial={link.isSpecial}>
                   {link.icon && <span className="mr-1.5">{link.icon}</span>}
@@ -90,6 +91,10 @@ const Navbar = () => {
           </div>
 
 
+          {/* Theme Toggle */}
+          <div className="hidden md:flex items-center ml-2">
+            <ThemeToggle />
+          </div>
 
           {/* User / Auth */}
           <div className="hidden md:flex items-center gap-3 ml-2">
@@ -97,13 +102,13 @@ const Navbar = () => {
               <div className="flex items-center gap-2 pl-4 border-l border-surface-200 h-8">
                 <div className="flex items-center gap-2 pr-3">
                   <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse ring-4 ring-emerald-400/20" />
-                  <span className="text-sm font-semibold text-text-primary">{user.name?.split(' ')[0]}</span>
+                  <span className="text-sm font-semibold text-text-primary dark:text-dark-text-primary">{user.name?.split(' ')[0]}</span>
                 </div>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleLogout}
-                  className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-100 text-text-secondary hover:bg-primary-50 hover:text-primary-600 transition-colors border border-surface-200 font-semibold text-sm"
+                  className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-100 dark:bg-dark-surface-100 text-text-secondary dark:text-dark-text-secondary hover:bg-primary-50 dark:hover:bg-dark-primary-100 hover:text-primary-600 dark:hover:text-dark-primary-600 transition-colors border border-surface-200 dark:border-dark-surface-200 font-semibold text-sm"
                   title="Logout"
                 >
                   <FaSignOutAlt />
@@ -112,7 +117,7 @@ const Navbar = () => {
               </div>
             ) : (
               <div className="flex items-center gap-2">
-                <Link to="/login" className="px-5 py-2 rounded-full text-sm font-semibold text-text-secondary hover:text-primary-600 hover:bg-surface-50 transition-colors">Login</Link>
+                <Link to="/login" className="px-5 py-2 rounded-full text-sm font-semibold text-text-secondary dark:text-dark-text-secondary hover:text-primary-600 dark:hover:text-dark-primary-600 hover:bg-surface-50 dark:hover:bg-dark-surface-100 transition-colors">Login</Link>
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                   <Link to="/signup" className="btn-primary flex items-center !py-2.5 !px-6 text-sm !rounded-full shadow-lg shadow-primary-500/20">Sign Up</Link>
                 </motion.div>
@@ -122,7 +127,7 @@ const Navbar = () => {
 
           {/* Mobile Toggle */}
           <button
-            className="md:hidden p-3 rounded-full bg-surface-50 text-text-secondary hover:text-primary-600 transition-colors"
+            className="md:hidden p-3 rounded-full bg-surface-50 dark:bg-dark-surface-100 text-text-secondary dark:text-dark-text-secondary hover:text-primary-600 dark:hover:text-dark-primary-600 transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <FaTimes className="w-5 h-5" /> : <FaBars className="w-5 h-5" />}
@@ -140,13 +145,13 @@ const Navbar = () => {
             transition={{ duration: 0.3, type: "spring", bounce: 0.2 }}
             className="fixed top-24 left-4 right-4 z-40 md:hidden"
           >
-            <div className="bg-white/90 backdrop-blur-2xl rounded-[2rem] shadow-glass border border-white/60 p-5 space-y-2">
+            <div className="bg-white/90 dark:bg-dark-surface-100/90 backdrop-blur-2xl rounded-[2rem] shadow-glass border border-white/60 dark:border-dark-surface-200/60 p-5 space-y-2">
               {getNavLinks().map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-4 px-4 py-3.5 rounded-2xl hover:bg-primary-50/50 text-text-secondary hover:text-primary-600 transition-all"
+                  className="flex items-center gap-4 px-4 py-3.5 rounded-2xl hover:bg-primary-50/50 dark:hover:bg-dark-primary-100/50 text-text-secondary dark:text-dark-text-secondary hover:text-primary-600 dark:hover:text-dark-primary-600 transition-all"
                 >
                   {link.icon ? <span className="text-primary-400">{link.icon}</span> : <span className="w-2 h-2 rounded-full bg-primary-200" />}
                   <span className="font-semibold">{link.label}</span>

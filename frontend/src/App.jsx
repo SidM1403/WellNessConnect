@@ -51,7 +51,7 @@ const App = () => {
   const isAdminRoute = location.pathname.startsWith('/admin');
 
   return (
-    <div className="relative min-h-screen bg-surface text-slate-50">
+    <div className="relative min-h-screen bg-surface text-slate-50 dark:bg-dark-surface-50 transition-colors duration-300">
       <Ribbons />
       {!isAdminRoute && <AnimatedBackground />}
       {!isAdminRoute && <Navbar />}

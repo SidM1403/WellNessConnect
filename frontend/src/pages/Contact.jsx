@@ -74,7 +74,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="pt-28 pb-16 min-h-screen bg-surface-50">
+    <div className="pt-28 pb-16 min-h-screen bg-surface-50 dark:bg-dark-surface-50">
       <ToastContainer
         position="top-center"
         autoClose={5000}
@@ -94,12 +94,12 @@ const Contact = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-12 space-y-4"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-100/50 text-primary-600 text-sm font-semibold tracking-wide uppercase">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-100/50 dark:bg-dark-primary-100/50 text-primary-600 dark:text-dark-primary-600 text-sm font-semibold tracking-wide uppercase">
             <FaEnvelope />
             <span>Get in Touch</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-display font-bold text-text-primary">We'd love to hear from you.</h1>
-          <p className="text-lg text-text-secondary max-w-2xl mx-auto">
+          <h1 className="text-4xl md:text-5xl font-display font-bold text-text-primary dark:text-dark-text-primary">We'd love to hear from you.</h1>
+          <p className="text-lg text-text-secondary dark:text-dark-text-secondary max-w-2xl mx-auto">
             Have questions about your wellness journey? Send us a message and our team will get back to you shortly.
           </p>
         </motion.div>
@@ -108,7 +108,7 @@ const Contact = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-white rounded-[2rem] p-8 md:p-12 shadow-card border border-surface-200 relative overflow-hidden"
+          className="bg-white dark:bg-dark-surface-100 rounded-[2rem] p-8 md:p-12 shadow-card border border-surface-200 dark:border-dark-surface-200 relative overflow-hidden"
         >
           {/* Decorative blurred blobs */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary-50 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 -z-0 pointer-events-none" />
@@ -117,7 +117,7 @@ const Contact = () => {
           <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-2">
-                <label htmlFor="name" className="block text-sm font-semibold text-text-primary ml-1">
+                <label htmlFor="name" className="block text-sm font-semibold text-text-primary dark:text-dark-text-primary ml-1">
                   Name <span className="text-coral-500">*</span>
                 </label>
                 <input
@@ -127,13 +127,13 @@ const Contact = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-5 py-3.5 rounded-xl bg-surface-50 border border-surface-200 focus:border-primary-400 focus:ring-4 focus:ring-primary-50 outline-none transition-all text-gray-900 placeholder:text-gray-400 font-medium"
+                  className="w-full px-5 py-3.5 rounded-xl bg-surface-50 dark:bg-dark-surface-200 border border-surface-200 dark:border-dark-surface-200 focus:border-primary-400 dark:focus:border-dark-primary-400 focus:ring-4 focus:ring-primary-50 dark:focus:ring-dark-primary-100 outline-none transition-all text-gray-900 dark:text-dark-text-primary placeholder:text-gray-400 dark:placeholder:text-dark-text-light font-medium"
                   placeholder="Your name"
                 />
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="email" className="block text-sm font-semibold text-text-primary ml-1">
+                <label htmlFor="email" className="block text-sm font-semibold text-text-primary dark:text-dark-text-primary ml-1">
                   Email <span className="text-coral-500">*</span>
                 </label>
                 <input
@@ -143,14 +143,14 @@ const Contact = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-5 py-3.5 rounded-xl bg-surface-50 border border-surface-200 focus:border-primary-400 focus:ring-4 focus:ring-primary-50 outline-none transition-all text-gray-900 placeholder:text-gray-400 font-medium"
+                  className="w-full px-5 py-3.5 rounded-xl bg-surface-50 dark:bg-dark-surface-200 border border-surface-200 dark:border-dark-surface-200 focus:border-primary-400 dark:focus:border-dark-primary-400 focus:ring-4 focus:ring-primary-50 dark:focus:ring-dark-primary-100 outline-none transition-all text-gray-900 dark:text-dark-text-primary placeholder:text-gray-400 dark:placeholder:text-dark-text-light font-medium"
                   placeholder="your.email@example.com"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="subject" className="block text-sm font-semibold text-text-primary ml-1">
+              <label htmlFor="subject" className="block text-sm font-semibold text-text-primary dark:text-dark-text-primary ml-1">
                 Subject
               </label>
               <input
@@ -159,13 +159,13 @@ const Contact = () => {
                 name="subject"
                 value={formData.subject}
                 onChange={handleChange}
-                className="w-full px-5 py-3.5 rounded-xl bg-surface-50 border border-surface-200 focus:border-primary-400 focus:ring-4 focus:ring-primary-50 outline-none transition-all text-gray-900 placeholder:text-gray-400 font-medium"
+                className="w-full px-5 py-3.5 rounded-xl bg-surface-50 dark:bg-dark-surface-200 border border-surface-200 dark:border-dark-surface-200 focus:border-primary-400 dark:focus:border-dark-primary-400 focus:ring-4 focus:ring-primary-50 dark:focus:ring-dark-primary-100 outline-none transition-all text-gray-900 dark:text-dark-text-primary placeholder:text-gray-400 dark:placeholder:text-dark-text-light font-medium"
                 placeholder="How can we help?"
               />
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="message" className="block text-sm font-semibold text-text-primary ml-1">
+              <label htmlFor="message" className="block text-sm font-semibold text-text-primary dark:text-dark-text-primary ml-1">
                 Message <span className="text-coral-500">*</span>
               </label>
               <div className="relative">
@@ -176,7 +176,7 @@ const Contact = () => {
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  className="w-full px-5 py-3.5 rounded-xl bg-surface-50 border border-surface-200 focus:border-primary-400 focus:ring-4 focus:ring-primary-50 outline-none transition-all text-gray-900 placeholder:text-gray-400 font-medium resize-none"
+                  className="w-full px-5 py-3.5 rounded-xl bg-surface-50 dark:bg-dark-surface-200 border border-surface-200 dark:border-dark-surface-200 focus:border-primary-400 dark:focus:border-dark-primary-400 focus:ring-4 focus:ring-primary-50 dark:focus:ring-dark-primary-100 outline-none transition-all text-gray-900 dark:text-dark-text-primary placeholder:text-gray-400 dark:placeholder:text-dark-text-light font-medium resize-none"
                   placeholder="Your message here..."
                 ></textarea>
                 <FaCommentDots className="absolute top-4 right-4 text-surface-300 pointer-events-none" />

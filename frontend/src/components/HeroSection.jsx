@@ -87,9 +87,11 @@ const HeroSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
             >
-              <AnimatedButton as="a" href="/signup">
-                Start your journey
-              </AnimatedButton>
+              <Link to="/signup">
+                <AnimatedButton>
+                  Start your journey
+                </AnimatedButton>
+              </Link>
               <Link
                 to="/forum"
                 className="px-6 py-3 rounded-xl text-text-secondary font-medium hover:text-primary-600 hover:bg-white/50 border border-transparent hover:border-surface-200 transition-all duration-300"

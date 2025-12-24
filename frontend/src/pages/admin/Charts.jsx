@@ -23,8 +23,8 @@ const CHART_COLORS = ['#6366f1', '#10b981', '#f43f5e', '#8b5cf6', '#f59e0b', '#0
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white p-3 border border-surface-200 shadow-xl rounded-xl">
-        <p className="text-sm font-bold text-text-primary">{label}</p>
+      <div className="bg-white dark:bg-dark-surface-100 p-3 border border-surface-200 dark:border-dark-surface-200 shadow-xl rounded-xl">
+        <p className="text-sm font-bold text-text-primary dark:text-dark-text-primary">{label}</p>
         {payload.map((entry, index) => (
           <p key={index} className="text-xs font-medium" style={{ color: entry.color }}>
             {entry.name}: {entry.value}
@@ -42,9 +42,9 @@ export const UserActivityChart = ({ data = [] }) => (
     animate={{ opacity: 1, y: 0 }}
     className="card-premium p-6"
   >
-    <h3 className="text-lg font-bold text-text-primary mb-4">Daily Active Users</h3>
+    <h3 className="text-lg font-bold text-text-primary dark:text-dark-text-primary mb-4">Daily Active Users</h3>
     {data.length === 0 ? (
-      <div className="h-[300px] flex items-center justify-center text-text-light text-sm italic">No activity data available</div>
+      <div className="h-[300px] flex items-center justify-center text-text-light dark:text-dark-text-light text-sm italic">No activity data available</div>
     ) : (
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data}>
@@ -85,9 +85,9 @@ export const RegistrationsChart = ({ data = [] }) => (
     transition={{ delay: 0.1 }}
     className="card-premium p-6"
   >
-    <h3 className="text-lg font-bold text-text-primary mb-4">New Registrations</h3>
+    <h3 className="text-lg font-bold text-text-primary dark:text-dark-text-primary mb-4">New Registrations</h3>
     {data.length === 0 ? (
-      <div className="h-[300px] flex items-center justify-center text-text-light text-sm italic">No registration data available</div>
+      <div className="h-[300px] flex items-center justify-center text-text-light dark:text-dark-text-light text-sm italic">No registration data available</div>
     ) : (
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data}>
@@ -124,9 +124,9 @@ export const BMICategoriesChart = ({ data = [] }) => (
     transition={{ delay: 0.2 }}
     className="card-premium p-6"
   >
-    <h3 className="text-lg font-bold text-text-primary mb-4">BMI Categories Distribution</h3>
+    <h3 className="text-lg font-bold text-text-primary dark:text-dark-text-primary mb-4">BMI Categories Distribution</h3>
     {data.length === 0 ? (
-      <div className="h-[300px] flex items-center justify-center text-text-light text-sm italic">No BMI data available</div>
+      <div className="h-[300px] flex items-center justify-center text-text-light dark:text-dark-text-light text-sm italic">No BMI data available</div>
     ) : (
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
@@ -166,9 +166,9 @@ export const UserStatusChart = ({ data = [] }) => (
     transition={{ delay: 0.3 }}
     className="card-premium p-6"
   >
-    <h3 className="text-lg font-bold text-text-primary mb-4">Active vs Inactive Users</h3>
+    <h3 className="text-lg font-bold text-text-primary dark:text-dark-text-primary mb-4">Active vs Inactive Users</h3>
     {data.length === 0 ? (
-      <div className="h-[300px] flex items-center justify-center text-text-light text-sm italic">No user status data available</div>
+      <div className="h-[300px] flex items-center justify-center text-text-light dark:text-dark-text-light text-sm italic">No user status data available</div>
     ) : (
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
@@ -205,9 +205,9 @@ export const ForumPostsChart = ({ data = [] }) => (
     transition={{ delay: 0.4 }}
     className="card-premium p-6"
   >
-    <h3 className="text-lg font-bold text-text-primary mb-4">Forum Posts Over Time</h3>
+    <h3 className="text-lg font-bold text-text-primary dark:text-dark-text-primary mb-4">Forum Posts Over Time</h3>
     {data.length === 0 ? (
-      <div className="h-[300px] flex items-center justify-center text-text-light text-sm italic">No forum data available</div>
+      <div className="h-[300px] flex items-center justify-center text-text-light dark:text-dark-text-light text-sm italic">No forum data available</div>
     ) : (
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data}>

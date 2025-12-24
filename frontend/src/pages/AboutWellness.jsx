@@ -12,11 +12,11 @@ const AboutWellness = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-primary-600 font-bold tracking-wide uppercase text-sm bg-primary-50 px-3 py-1 rounded-full">Our Story</span>
-            <h1 className="mt-6 text-4xl md:text-6xl font-display font-bold text-text-primary leading-tight">
+            <span className="text-primary-600 dark:text-dark-primary-600 font-bold tracking-wide uppercase text-sm bg-primary-50 dark:bg-dark-primary-100 px-3 py-1 rounded-full">Our Story</span>
+            <h1 className="mt-6 text-4xl md:text-6xl font-display font-bold text-text-primary dark:text-dark-text-primary leading-tight">
               Wellness is a <span className="text-transparent bg-clip-text bg-gradient-primary">journey</span>, not a destination.
             </h1>
-            <p className="mt-6 text-xl text-text-secondary leading-relaxed">
+            <p className="mt-6 text-xl text-text-secondary dark:text-dark-text-secondary leading-relaxed">
               We started WellConnect with a simple belief: everyone deserves a safe, supportive space to prioritize their mental health. No stigma, no barriers—just connection.
             </p>
           </motion.div>
@@ -26,7 +26,7 @@ const AboutWellness = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <div className="relative z-10 rounded-[2.5rem] overflow-hidden shadow-soft-xl border border-white/50 aspect-[4/3] bg-surface-50">
+            <div className="relative z-10 rounded-[2.5rem] overflow-hidden shadow-soft-xl border border-white/50 dark:border-dark-surface-200/50 aspect-[4/3] bg-surface-50 dark:bg-dark-surface-100">
               {/* Abstract clean visual representation */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary-100/50 to-accent-100/50" />
               <div className="absolute inset-0 flex items-center justify-center">
@@ -41,14 +41,14 @@ const AboutWellness = () => {
               <motion.div
                 animate={{ y: [0, -15, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-12 right-12 p-4 bg-white rounded-2xl shadow-lg border border-surface-100"
+                className="absolute top-12 right-12 p-4 bg-white dark:bg-dark-surface-200 rounded-2xl shadow-lg border border-surface-100 dark:border-dark-surface-200"
               >
                 <FaHeart className="w-6 h-6 text-coral-400" />
               </motion.div>
               <motion.div
                 animate={{ y: [0, 20, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute bottom-12 left-12 p-4 bg-white rounded-2xl shadow-lg border border-surface-100"
+                className="absolute bottom-12 left-12 p-4 bg-white dark:bg-dark-surface-200 rounded-2xl shadow-lg border border-surface-100 dark:border-dark-surface-200"
               >
                 <FaBrain className="w-6 h-6 text-purple-400" />
               </motion.div>
@@ -62,7 +62,7 @@ const AboutWellness = () => {
       </section>
 
       {/* Mission & Vision Grid */}
-      <section className="bg-gradient-to-b from-white to-surface-50 py-24">
+      <section className="bg-gradient-to-b from-white to-surface-50 dark:from-dark-surface-50 dark:to-dark-surface-100 py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -76,13 +76,13 @@ const AboutWellness = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white p-8 rounded-3xl shadow-soft border border-surface-100 hover:shadow-card hover:-translate-y-1 transition-all duration-300"
+                className="bg-white dark:bg-dark-surface-100 p-8 rounded-3xl shadow-soft border border-surface-100 dark:border-dark-surface-200 hover:shadow-card hover:-translate-y-1 transition-all duration-300"
               >
                 <div className="w-12 h-12 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-xl mb-6">
                   {item.icon}
                 </div>
-                <h3 className="text-xl font-bold text-text-primary mb-3">{item.title}</h3>
-                <p className="text-text-secondary">{item.desc}</p>
+                <h3 className="text-xl font-bold text-text-primary dark:text-dark-text-primary mb-3">{item.title}</h3>
+                <p className="text-text-secondary dark:text-dark-text-secondary">{item.desc}</p>
               </motion.div>
             ))}
           </div>

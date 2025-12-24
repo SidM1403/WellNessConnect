@@ -37,18 +37,18 @@ const AdminLayout = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-surface-50">
+    <div className="min-h-screen bg-surface-50 dark:bg-dark-surface-50">
       {/* Mobile Header */}
-      <div className="lg:hidden sticky top-0 z-50 glass border-b border-surface-200 p-4 flex items-center justify-between">
+      <div className="lg:hidden sticky top-0 z-50 glass border-b border-surface-200 dark:border-dark-surface-200 p-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-full bg-gradient-primary flex items-center justify-center text-white shadow-lg shadow-primary-500/30">
             <FaSpa className="w-4 h-4" />
           </div>
-          <span className="font-display font-bold text-lg text-text-primary">Admin</span>
+          <span className="font-display font-bold text-lg text-text-primary dark:text-dark-text-primary">Admin</span>
         </div>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 rounded-lg hover:bg-surface-100 text-text-secondary"
+          className="p-2 rounded-lg hover:bg-surface-100 dark:hover:bg-dark-surface-200 text-text-secondary dark:text-dark-text-secondary"
         >
           {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -61,7 +61,7 @@ const AdminLayout = () => {
           animate={{
             x: sidebarOpen || isDesktop ? 0 : -280
           }}
-          className="fixed lg:static inset-y-0 left-0 z-40 w-64 bg-white border-r border-surface-200 lg:border-r-0 lg:translate-x-0 shadow-xl lg:shadow-none"
+          className="fixed lg:static inset-y-0 left-0 z-40 w-64 bg-white dark:bg-dark-surface-100 border-r border-surface-200 dark:border-dark-surface-200 lg:border-r-0 lg:translate-x-0 shadow-xl lg:shadow-none"
         >
           <div className="h-full flex flex-col p-6">
             <div className="mb-8 hidden lg:flex items-center gap-3">
@@ -69,8 +69,8 @@ const AdminLayout = () => {
                 <FaSpa className="w-5 h-5" />
               </div>
               <div>
-                <h1 className="text-xl font-bold font-display text-text-primary">Admin Panel</h1>
-                <p className="text-xs text-text-light font-medium">WellConnect Analytics</p>
+                <h1 className="text-xl font-bold font-display text-text-primary dark:text-dark-text-primary">Admin Panel</h1>
+                <p className="text-xs text-text-light dark:text-dark-text-light font-medium">WellConnect Analytics</p>
               </div>
             </div>
 
@@ -85,7 +85,7 @@ const AdminLayout = () => {
                     onClick={() => setSidebarOpen(false)}
                     className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium ${isActive
                       ? 'bg-primary-50 text-indigo-600 shadow-sm border border-primary-100'
-                      : 'text-text-secondary hover:bg-surface-50 hover:text-primary-600'
+                      : 'text-text-secondary dark:text-dark-text-secondary hover:bg-surface-50 dark:hover:bg-dark-surface-200 hover:text-primary-600 dark:hover:text-dark-primary-600'
                       }`}
                   >
                     <Icon size={20} className={isActive ? 'text-primary-600' : ''} />
@@ -95,15 +95,15 @@ const AdminLayout = () => {
               })}
             </nav>
 
-            <div className="pt-6 border-t border-surface-200">
-              <div className="px-4 py-2 mb-4 bg-surface-50 rounded-xl border border-surface-100">
-                <p className="text-xs text-text-light uppercase tracking-wide font-bold mb-1">Logged in as</p>
-                <p className="text-sm font-bold text-text-primary truncate">{user?.name}</p>
-                <p className="text-xs text-text-secondary truncate">{user?.email}</p>
+            <div className="pt-6 border-t border-surface-200 dark:border-dark-surface-200">
+              <div className="px-4 py-2 mb-4 bg-surface-50 dark:bg-dark-surface-200 rounded-xl border border-surface-100 dark:border-dark-surface-200">
+                <p className="text-xs text-text-light dark:text-dark-text-light uppercase tracking-wide font-bold mb-1">Logged in as</p>
+                <p className="text-sm font-bold text-text-primary dark:text-dark-text-primary truncate">{user?.name}</p>
+                <p className="text-xs text-text-secondary dark:text-dark-text-secondary truncate">{user?.email}</p>
               </div>
               <button
                 onClick={logout}
-                className="w-full px-4 py-2.5 rounded-xl border border-surface-200 text-text-secondary hover:bg-surface-50 hover:text-primary-600 transition-colors text-sm font-bold flex items-center justify-center gap-2"
+                className="w-full px-4 py-2.5 rounded-xl border border-surface-200 dark:border-dark-surface-200 text-text-secondary dark:text-dark-text-secondary hover:bg-surface-50 dark:hover:bg-dark-surface-200 hover:text-primary-600 dark:hover:text-dark-primary-600 transition-colors text-sm font-bold flex items-center justify-center gap-2"
               >
                 Logout
               </button>

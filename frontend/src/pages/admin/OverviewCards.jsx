@@ -33,8 +33,8 @@ const OverviewCard = ({ label, value, type }) => {
         </div>
       </div>
       <div className="space-y-1">
-        <p className="text-3xl font-bold text-text-primary">{value}</p>
-        <p className="text-sm font-medium text-text-secondary">{label}</p>
+        <p className="text-3xl font-bold text-text-primary dark:text-dark-text-primary">{value}</p>
+        <p className="text-sm font-medium text-text-secondary dark:text-dark-text-secondary">{label}</p>
       </div>
     </motion.div>
   );

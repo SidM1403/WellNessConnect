@@ -106,13 +106,13 @@ const AIChatWindow = () => {
   };
 
   return (
-    <div className="bg-white rounded-3xl shadow-xl border border-surface-200 p-4 sm:p-6 flex flex-col h-[600px] max-h-[75vh]">
-      <div className="flex items-center justify-between gap-3 mb-6 border-b border-surface-100 pb-4">
+    <div className="bg-white dark:bg-dark-surface-100 rounded-3xl shadow-xl border border-surface-200 dark:border-dark-surface-200 p-4 sm:p-6 flex flex-col h-[600px] max-h-[75vh]">
+      <div className="flex items-center justify-between gap-3 mb-6 border-b border-surface-100 dark:border-dark-surface-200 pb-4">
         <div>
           <p className="text-[11px] uppercase tracking-wider font-bold text-primary-600 mb-1">
             AI Wellness Companion
           </p>
-          <p className="text-xs text-text-secondary">
+          <p className="text-xs text-text-secondary dark:text-dark-text-secondary">
             Gentle reflections. No diagnoses.
           </p>
         </div>
@@ -120,7 +120,7 @@ const AIChatWindow = () => {
       </div>
 
       {!isConnected && (
-        <div className="bg-amber-50 border border-amber-200 text-amber-700 text-sm p-3 rounded-xl mb-4 flex items-center gap-2">
+        <div className="bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-700 text-amber-700 dark:text-amber-200 text-sm p-3 rounded-xl mb-4 flex items-center gap-2">
           <span>⚠️</span> Note: You're in offline mode. Some features may be limited.
         </div>
       )}
@@ -150,7 +150,7 @@ const AIChatWindow = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type your message..."
-            className="w-full bg-surface-50 border border-surface-200 rounded-2xl px-5 py-3.5 pr-12 text-text-primary placeholder:text-text-light focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all shadow-sm"
+            className="w-full bg-surface-50 dark:bg-dark-surface-200 border border-surface-200 dark:border-dark-surface-200 rounded-2xl px-5 py-3.5 pr-12 text-text-primary dark:text-dark-text-primary placeholder:text-text-light dark:placeholder:text-dark-text-light focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 dark:focus:border-dark-primary-500 transition-all shadow-sm"
             disabled={loading}
           />
           <button
@@ -163,7 +163,7 @@ const AIChatWindow = () => {
         </div>
       </form>
 
-      <p className="text-[10px] text-text-light mt-3 text-center">
+      <p className="text-[10px] text-text-light dark:text-dark-text-light mt-3 text-center">
         AI responses are for informational purposes only and not medical advice.
       </p>
     </div>

@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
+  darkMode: 'class',
   theme: {
     fontFamily: {
       sans: ['Inter', 'sans-serif'],
@@ -46,6 +47,47 @@ export default {
           primary: '#1e293b', // Slate 800
           secondary: '#64748b', // Slate 500
           light: '#94a3b8', // Slate 400
+        },
+        // Dark Mode Palette
+        dark: {
+          primary: {
+            50: '#1e1b4b',
+            100: '#312e81',
+            200: '#3730a3',
+            300: '#4338ca',
+            400: '#4f46e5',
+            500: '#6366f1',
+            600: '#818cf8',
+            700: '#a5b4fc',
+          },
+          secondary: {
+            50: '#4a044e',
+            100: '#701a75',
+            200: '#86198f',
+            300: '#a21caf',
+            400: '#c026d3',
+            500: '#d946ef',
+            600: '#e879f9',
+          },
+          accent: {
+            50: '#134e4a',
+            100: '#115e59',
+            200: '#0f766e',
+            300: '#0d9488',
+            400: '#14b8a6',
+            500: '#2dd4bf',
+          },
+          surface: {
+            50: '#0f172a', // Main Dark Background
+            100: '#1e293b', // Secondary Dark Background
+            200: '#334155', // Borders
+            300: '#475569', // Elevated surfaces
+          },
+          text: {
+            primary: '#f1f5f9', // Slate 100
+            secondary: '#cbd5e1', // Slate 300
+            light: '#94a3b8', // Slate 400
+          }
         }
       },
       backgroundImage: {

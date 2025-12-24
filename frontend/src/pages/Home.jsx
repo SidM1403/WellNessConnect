@@ -58,7 +58,7 @@ const Home = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <motion.h2
-            className="text-3xl font-bold font-display text-text-primary sm:text-4xl"
+            className="text-3xl font-bold font-display text-text-primary dark:text-dark-text-primary sm:text-4xl"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -66,7 +66,7 @@ const Home = () => {
             Your Wellness Journey Starts Here
           </motion.h2>
           <motion.p
-            className="mt-4 max-w-2xl mx-auto text-lg text-text-secondary"
+            className="mt-4 max-w-2xl mx-auto text-lg text-text-secondary dark:text-dark-text-secondary"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -80,7 +80,7 @@ const Home = () => {
           {features.map((feature, index) => (
             <motion.div
               key={index}
-              className={`p-8 rounded-3xl bg-white border border-surface-200 shadow-soft hover:shadow-card transition-all duration-300 group`}
+              className={`p-8 rounded-3xl bg-white dark:bg-dark-surface-100 border border-surface-200 dark:border-dark-surface-200 shadow-soft hover:shadow-card transition-all duration-300 group`}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               whileHover={{ y: -5 }}
@@ -90,8 +90,8 @@ const Home = () => {
               <div className={`flex items-center justify-center w-14 h-14 rounded-2xl ${feature.bg} mb-6 transition-transform group-hover:scale-110`}>
                 {feature.icon}
               </div>
-              <h3 className="text-xl font-bold text-text-primary mb-3">{feature.title}</h3>
-              <p className="text-text-secondary leading-relaxed">{feature.description}</p>
+              <h3 className="text-xl font-bold text-text-primary dark:text-dark-text-primary mb-3">{feature.title}</h3>
+              <p className="text-text-secondary dark:text-dark-text-secondary leading-relaxed">{feature.description}</p>
             </motion.div>
           ))}
         </div>
@@ -103,7 +103,7 @@ const Home = () => {
       {/* About Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="relative rounded-[2.5rem] p-8 md:p-16 overflow-hidden bg-surface-50 border border-surface-200"
+          className="relative rounded-[2.5rem] p-8 md:p-16 overflow-hidden bg-surface-50 dark:bg-dark-surface-100 border border-surface-200 dark:border-dark-surface-200"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -114,30 +114,30 @@ const Home = () => {
 
           <div className="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary">
+              <h2 className="text-3xl md:text-4xl font-bold font-display text-text-primary dark:text-dark-text-primary">
                 What is WellConnect?
               </h2>
-              <p className="text-xl text-text-secondary leading-relaxed">
+              <p className="text-xl text-text-secondary dark:text-dark-text-secondary leading-relaxed">
                 A holistic approach to your wellbeing journey. WellConnect is more than just an app—it's a supportive community and comprehensive toolkit designed to help you prioritize your well-being.
               </p>
 
               <div className="grid gap-6 mt-8">
                 <div className="flex gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center text-accent-500">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-white dark:bg-dark-surface-200 shadow-sm flex items-center justify-center text-accent-500">
                     <FaLeaf />
                   </div>
                   <div>
-                    <h4 className="text-lg font-semibold text-text-primary">Our Mission</h4>
-                    <p className="text-text-secondary">To make mental health and wellness support accessible and effective for everyone.</p>
+                    <h4 className="text-lg font-semibold text-text-primary dark:text-dark-text-primary">Our Mission</h4>
+                    <p className="text-text-secondary dark:text-dark-text-secondary">To make mental health and wellness support accessible and effective for everyone.</p>
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center text-primary-500">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-white dark:bg-dark-surface-200 shadow-sm flex items-center justify-center text-primary-500">
                     <FaBrain />
                   </div>
                   <div>
-                    <h4 className="text-lg font-semibold text-text-primary">Our Approach</h4>
-                    <p className="text-text-secondary">Combining evidence-based practices with modern technology for a personalized experience.</p>
+                    <h4 className="text-lg font-semibold text-text-primary dark:text-dark-text-primary">Our Approach</h4>
+                    <p className="text-text-secondary dark:text-dark-text-secondary">Combining evidence-based practices with modern technology for a personalized experience.</p>
                   </div>
                 </div>
               </div>

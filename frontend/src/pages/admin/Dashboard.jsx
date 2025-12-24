@@ -56,7 +56,7 @@ const Dashboard = () => {
       <div className="space-y-6">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="bg-white rounded-3xl border border-surface-200 p-6 animate-pulse shadow-sm">
+            <div key={i} className="bg-white dark:bg-dark-surface-100 rounded-3xl border border-surface-200 dark:border-dark-surface-200 p-6 animate-pulse shadow-sm">
               <div className="h-4 bg-surface-100 rounded w-3/4 mb-4"></div>
               <div className="h-8 bg-surface-100 rounded w-1/2"></div>
             </div>
@@ -68,14 +68,14 @@ const Dashboard = () => {
 
   if (error && !overview) {
     return (
-      <div className="bg-white rounded-3xl border border-coral-200 p-8 text-center shadow-lg shadow-coral-500/10">
+      <div className="bg-white dark:bg-dark-surface-100 rounded-3xl border border-coral-200 dark:border-coral-700 p-8 text-center shadow-lg shadow-coral-500/10">
         <div className="text-coral-500 mb-2">
           <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
           </svg>
         </div>
-        <h3 className="text-lg font-bold text-text-primary mb-2">Failed to Load Data</h3>
-        <p className="text-text-secondary mb-4">{error}</p>
+        <h3 className="text-lg font-bold text-text-primary dark:text-dark-text-primary mb-2">Failed to Load Data</h3>
+        <p className="text-text-secondary dark:text-dark-text-secondary mb-4">{error}</p>
         <button
           onClick={() => window.location.reload()}
           className="px-6 py-2 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-colors font-semibold shadow-lg shadow-primary-500/30"
@@ -90,8 +90,8 @@ const Dashboard = () => {
     <div className="space-y-8 pb-10">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold font-display text-text-primary">Dashboard Overview</h1>
-        <p className="text-text-secondary mt-1">Welcome to the admin control center.</p>
+        <h1 className="text-2xl font-bold font-display text-text-primary dark:text-dark-text-primary">Dashboard Overview</h1>
+        <p className="text-text-secondary dark:text-dark-text-secondary mt-1">Welcome to the admin control center.</p>
       </div>
 
       {/* Overview Cards */}

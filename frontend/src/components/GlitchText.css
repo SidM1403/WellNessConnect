@@ -9,6 +9,16 @@
     cursor: pointer;
 }
 
+/* Dark mode support - only make gray-900 text visible, keep gradient text as is */
+.dark .glitch.text-gray-900 {
+    color: #ffffff !important;
+}
+
+.dark .glitch.text-gray-900::after,
+.dark .glitch.text-gray-900::before {
+    color: #ffffff;
+}
+
 .glitch::after,
 .glitch::before {
     content: attr(data-text);
