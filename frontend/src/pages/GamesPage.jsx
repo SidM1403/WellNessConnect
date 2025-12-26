@@ -72,7 +72,7 @@ const GamesPage = () => {
                     <FaBrain className="text-2xl text-primary-500 mr-2" />
                     <span className="font-semibold text-text-primary dark:text-dark-text-primary">Brain & Wellness</span>
                 </div>
-                <h1 className="mb-4 flex flex-wrap items-center gap-3">
+                <h1 className="mb-4 flex flex-wrap items-center justify-center gap-3">
                     <GlitchText
                         enableOnHover={true}
                         speed={1.5}
