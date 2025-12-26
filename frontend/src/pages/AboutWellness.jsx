@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 import { FaLeaf, FaBrain, FaHeart, FaUserMd, FaShieldAlt, FaComments } from 'react-icons/fa';
+import GlitchText from '../components/GlitchText';
+import RotatingText from '../components/RotatingText';
 
 const AboutWellness = () => {
   return (
@@ -13,8 +15,28 @@ const AboutWellness = () => {
             transition={{ duration: 0.6 }}
           >
             <span className="text-primary-600 dark:text-dark-primary-600 font-bold tracking-wide uppercase text-sm bg-primary-50 dark:bg-dark-primary-100 px-3 py-1 rounded-full">Our Story</span>
-            <h1 className="mt-6 text-4xl md:text-6xl font-display font-bold text-text-primary dark:text-dark-text-primary leading-tight">
-              Wellness is a <span className="text-transparent bg-clip-text bg-gradient-primary">journey</span>, not a destination.
+            <h1 className="mt-6 leading-tight flex flex-wrap items-center gap-3">
+              <GlitchText
+                enableOnHover={true}
+                speed={1.5}
+                className="text-4xl md:text-6xl font-display font-bold text-gray-900 dark:text-white inline-block glitch-ghost mr-3"
+              >
+                Wellness is a{' '}
+              </GlitchText>
+              <GlitchText
+                enableOnHover={true}
+                speed={1.5}
+                className="text-4xl md:text-6xl font-display font-bold text-gray-900 dark:text-white inline-block glitch-ghost"
+              >
+                journey,
+              </GlitchText>
+              <GlitchText
+                enableOnHover={true}
+                speed={1.5}
+                className="text-4xl md:text-6xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 inline-block"
+              >
+                not a destination.
+              </GlitchText>
             </h1>
             <p className="mt-6 text-xl text-text-secondary dark:text-dark-text-secondary leading-relaxed">
               We started WellConnect with a simple belief: everyone deserves a safe, supportive space to prioritize their mental health. No stigma, no barriers—just connection.
@@ -61,28 +83,86 @@ const AboutWellness = () => {
         </div>
       </section>
 
-      {/* Mission & Vision Grid */}
+      {/* Team Section */}
       <section className="bg-gradient-to-b from-white to-surface-50 dark:from-dark-surface-50 dark:to-dark-surface-100 py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold font-display mb-4 flex items-center justify-center gap-3 flex-wrap">
+              <span className="text-text-primary dark:text-dark-text-primary">Meet Our</span>
+              <RotatingText
+                texts={['Amazing', 'Talented', 'Dedicated', 'Passionate']}
+                mainClassName="px-4 py-2 bg-gradient-to-r from-primary-500 to-indigo-500 text-white overflow-hidden justify-center rounded-xl"
+                staggerFrom="center"
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                exit={{ y: "-120%" }}
+                staggerDuration={0.03}
+                splitLevelClassName="overflow-hidden"
+                transition={{ type: "spring", damping: 25, stiffness: 350 }}
+                rotationInterval={2500}
+              />
+              <span className="text-text-primary dark:text-dark-text-primary">Team</span>
+            </h2>
+            <p className="text-lg text-text-secondary dark:text-dark-text-secondary max-w-2xl mx-auto">
+              The passionate developers behind WellConnect
+            </p>
+          </motion.div>
+
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { icon: <FaShieldAlt />, title: "Safe Space", desc: "A moderated, judgment-free zone for all." },
-              { icon: <FaUserMd />, title: "Expert Backed", desc: "Resources verified by mental health professionals." },
-              { icon: <FaComments />, title: "Community First", desc: "Built on the power of shared experiences." }
-            ].map((item, i) => (
+              {
+                name: "Siddhant",
+                roles: ["Full Stack Developer", "UI/UX Designer", "Backend Engineer", "React Specialist"],
+                icon: <FaBrain />
+              },
+              {
+                name: "Thulsi",
+                roles: ["Frontend Developer", "React Expert", "CSS Wizard", "Animation Specialist"],
+                icon: <FaHeart />
+              },
+              {
+                name: "Alafeya",
+                roles: ["Backend Developer", "API Architect", "Database Expert", "DevOps Engineer"],
+                icon: <FaLeaf />
+              }
+            ].map((member, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
+                transition={{ delay: i * 0.15 }}
                 viewport={{ once: true }}
-                className="bg-white dark:bg-dark-surface-100 p-8 rounded-3xl shadow-soft border border-surface-100 dark:border-dark-surface-200 hover:shadow-card hover:-translate-y-1 transition-all duration-300"
+                className="bg-white dark:bg-dark-surface-100 p-10 py-12 rounded-3xl shadow-soft border border-surface-100 dark:border-dark-surface-200 hover:shadow-card hover:-translate-y-1 transition-all duration-300 min-h-[450px] flex flex-col items-center"
               >
-                <div className="w-12 h-12 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-xl mb-6">
-                  {item.icon}
+                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary-500 to-indigo-500 text-white flex items-center justify-center text-3xl mb-6">
+                  {member.icon}
                 </div>
-                <h3 className="text-xl font-bold text-text-primary dark:text-dark-text-primary mb-3">{item.title}</h3>
-                <p className="text-text-secondary dark:text-dark-text-secondary">{item.desc}</p>
+                <h3 className="text-2xl font-bold text-text-primary dark:text-dark-text-primary mb-3 text-center">
+                  {member.name}
+                </h3>
+                <p className="text-sm text-text-secondary dark:text-dark-text-secondary text-center mb-6 px-2 flex-grow">
+                  {member.bio}
+                </p>
+                <div className="min-h-[2.5rem] flex items-center justify-center mt-auto w-full">
+                  <RotatingText
+                    texts={member.roles}
+                    mainClassName="px-3 py-1.5 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 overflow-hidden justify-center rounded-lg font-medium text-sm"
+                    staggerFrom="last"
+                    initial={{ y: "100%" }}
+                    animate={{ y: 0 }}
+                    exit={{ y: "-120%" }}
+                    staggerDuration={0.025}
+                    splitLevelClassName="overflow-hidden"
+                    transition={{ type: "spring", damping: 30, stiffness: 400 }}
+                    rotationInterval={2000}
+                  />
+                </div>
               </motion.div>
             ))}
           </div>
@@ -147,3 +227,6 @@ const AboutWellness = () => {
 };
 
 export default AboutWellness;
+
+
+

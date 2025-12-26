@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import api from '../api/api.js';
 
@@ -118,8 +118,8 @@ const WellnessTodoWidget = () => {
               key={task._id}
               layout
               className={`rounded-xl border px-3 py-3 flex items-center justify-between gap-3 transition-colors ${task.completed
-                  ? 'bg-primary-50 border-primary-100'
-                  : 'bg-white border-surface-200 hover:border-primary-200'
+                ? 'bg-primary-50 border-primary-100'
+                : 'bg-white border-surface-200 hover:border-primary-200'
                 }`}
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
@@ -152,6 +152,6 @@ const WellnessTodoWidget = () => {
   );
 };
 
-export default WellnessTodoWidget;
+export default React.memo(WellnessTodoWidget);
 
 

@@ -1,5 +1,5 @@
 .glitch {
-    /* color: #fff; Removed to allow Tailwind override */
+    /* Responsive font-size using clamp as specified */
     font-size: clamp(2rem, 5vw, 4.5rem);
     white-space: nowrap;
     font-weight: 900;
@@ -9,7 +9,7 @@
     cursor: pointer;
 }
 
-/* Dark mode support - only make gray-900 text visible, keep gradient text as is */
+/* Dark mode support */
 .dark .glitch.text-gray-900 {
     color: #ffffff !important;
 }
@@ -19,6 +19,7 @@
     color: #ffffff;
 }
 
+/* RGB split glitch effect using pseudo-elements */
 .glitch::after,
 .glitch::before {
     content: attr(data-text);
@@ -26,17 +27,17 @@
     top: 0;
     color: currentColor;
     background-color: transparent;
-    /* Changed from #060010 for better integration */
     overflow: hidden;
     clip-path: inset(0 0 0 0);
 }
 
-/* Helper to make glitch effect shadow-only (good for solid text) */
+/* Ghost mode - only shadows visible, text stays solid */
 .glitch-ghost::after,
 .glitch-ghost::before {
     color: transparent;
 }
 
+/* Always-on glitch mode */
 .glitch:not(.enable-on-hover)::after {
     left: 10px;
     text-shadow: var(--after-shadow, -10px 0 red);
@@ -49,6 +50,7 @@
     animation: animate-glitch var(--before-duration, 2s) infinite linear alternate-reverse;
 }
 
+/* Hover-activated glitch mode */
 .glitch.enable-on-hover::after,
 .glitch.enable-on-hover::before {
     content: '';
@@ -72,6 +74,7 @@
     animation: animate-glitch var(--before-duration, 2s) infinite linear alternate-reverse;
 }
 
+/* Clip-path animation for slicing effect */
 @keyframes animate-glitch {
     0% {
         clip-path: inset(20% 0 50% 0);

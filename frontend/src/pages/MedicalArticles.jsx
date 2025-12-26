@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FaSearch, FaBookMedical, FaStethoscope, FaExternalLinkAlt, FaTimes } from 'react-icons/fa';
 import api from '../api/api';
 import LoadingSkeleton from '../components/LoadingSkeleton.jsx';
+import GlitchText from '../components/GlitchText.jsx';
 
 const MedicalArticles = () => {
   const [query, setQuery] = useState('');
@@ -62,9 +63,22 @@ const MedicalArticles = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl font-display font-bold text-text-primary dark:text-dark-text-primary"
+            className="flex flex-wrap items-center justify-center gap-3"
           >
-            Find reliable health information
+            <GlitchText
+              enableOnHover={true}
+              speed={1.5}
+              className="text-4xl md:text-5xl font-display font-bold text-gray-900 dark:text-white inline-block glitch-ghost"
+            >
+              Find reliable{' '}
+            </GlitchText>
+            <GlitchText
+              enableOnHover={true}
+              speed={1.5}
+              className="text-4xl md:text-5xl font-display font-bold text-transparent bg-clip-text bg-gradient-primary inline-block"
+            >
+              health information
+            </GlitchText>
           </motion.h1>
 
           <motion.div
@@ -186,8 +200,9 @@ const MedicalArticles = () => {
         </motion.div>
 
       </div>
-    </div>
+    </div >
   );
 };
 
 export default MedicalArticles;
+

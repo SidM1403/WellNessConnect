@@ -11,6 +11,7 @@ import LoadingSkeleton from '../components/LoadingSkeleton.jsx';
 import CalorieNeedWidget from '../components/CalorieNeedWidget.jsx';
 import { motion } from 'framer-motion';
 import MagicBento, { ParticleCard } from '../components/MagicBento.jsx';
+import GlitchText from '../components/GlitchText.jsx';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -101,7 +102,22 @@ const Dashboard = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h2 className="text-3xl font-bold font-display text-text-primary">Welcome back, {user?.name}</h2>
+        <h2 className="flex flex-wrap items-center gap-3">
+          <GlitchText
+            enableOnHover={true}
+            speed={1.5}
+            className="text-3xl font-bold font-display text-gray-900 dark:text-white inline-block glitch-ghost"
+          >
+            Welcome back,{' '}
+          </GlitchText>
+          <GlitchText
+            enableOnHover={true}
+            speed={1.5}
+            className="text-3xl font-bold font-display text-transparent bg-clip-text bg-gradient-primary inline-block"
+          >
+            {user?.name}
+          </GlitchText>
+        </h2>
         <p className="text-text-secondary mt-1">Track mood, daily wellness, and connect with your community.</p>
       </motion.div>
 
@@ -209,3 +225,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

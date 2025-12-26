@@ -4,6 +4,7 @@ import { FaPaperPlane, FaEnvelope, FaCommentDots } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import api from '../api/api';
+import GlitchText from '../components/GlitchText';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -98,7 +99,22 @@ const Contact = () => {
             <FaEnvelope />
             <span>Get in Touch</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-display font-bold text-text-primary dark:text-dark-text-primary">We'd love to hear from you.</h1>
+          <h1 className="flex flex-wrap items-center justify-center gap-3">
+            <GlitchText
+              enableOnHover={true}
+              speed={1.5}
+              className="text-4xl md:text-5xl font-display font-bold text-gray-900 dark:text-white inline-block glitch-ghost"
+            >
+              We'd love to{' '}
+            </GlitchText>
+            <GlitchText
+              enableOnHover={true}
+              speed={1.5}
+              className="text-4xl md:text-5xl font-display font-bold text-transparent bg-clip-text bg-gradient-primary inline-block"
+            >
+              hear from you.
+            </GlitchText>
+          </h1>
           <p className="text-lg text-text-secondary dark:text-dark-text-secondary max-w-2xl mx-auto">
             Have questions about your wellness journey? Send us a message and our team will get back to you shortly.
           </p>
@@ -213,3 +229,4 @@ const Contact = () => {
 };
 
 export default Contact;
+

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import api from '../api/api.js';
 
 const SYMPTOMS = [
@@ -76,8 +76,8 @@ const SymptomTrackerWidget = () => {
               type="button"
               onClick={() => toggleSymptom(s.id)}
               className={`rounded-full border px-3 py-1.5 transition-all duration-200 ${selected.includes(s.id)
-                  ? 'border-primary-200 bg-primary-50 text-primary-600 font-medium'
-                  : 'border-surface-200 bg-surface-50 text-text-secondary hover:bg-surface-100'
+                ? 'border-primary-200 bg-primary-50 text-primary-600 font-medium'
+                : 'border-surface-200 bg-surface-50 text-text-secondary hover:bg-surface-100'
                 }`}
             >
               {s.label}
@@ -140,6 +140,6 @@ const SymptomTrackerWidget = () => {
   );
 };
 
-export default SymptomTrackerWidget;
+export default React.memo(SymptomTrackerWidget);
 
 

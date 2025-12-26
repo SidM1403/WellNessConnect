@@ -52,15 +52,17 @@ export const UserActivityChart = ({ data = [] }) => (
           <XAxis
             dataKey="date"
             stroke="#94a3b8"
-            tick={{ fill: '#64748b', fontSize: 12 }}
+            tick={{ fill: 'currentColor', fontSize: 12 }}
             tickLine={false}
             axisLine={false}
+            className="text-text-secondary dark:text-dark-text-secondary"
           />
           <YAxis
             stroke="#94a3b8"
-            tick={{ fill: '#64748b', fontSize: 12 }}
+            tick={{ fill: 'currentColor', fontSize: 12 }}
             tickLine={false}
             axisLine={false}
+            className="text-text-secondary dark:text-dark-text-secondary"
           />
           <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#cbd5e1', strokeWidth: 1, strokeDasharray: '4 4' }} />
           <Line
@@ -95,15 +97,17 @@ export const RegistrationsChart = ({ data = [] }) => (
           <XAxis
             dataKey="date"
             stroke="#94a3b8"
-            tick={{ fill: '#64748b', fontSize: 12 }}
+            tick={{ fill: 'currentColor', fontSize: 12 }}
             tickLine={false}
             axisLine={false}
+            className="text-text-secondary dark:text-dark-text-secondary"
           />
           <YAxis
             stroke="#94a3b8"
-            tick={{ fill: '#64748b', fontSize: 12 }}
+            tick={{ fill: 'currentColor', fontSize: 12 }}
             tickLine={false}
             axisLine={false}
+            className="text-text-secondary dark:text-dark-text-secondary"
           />
           <Tooltip content={<CustomTooltip />} cursor={{ fill: '#f1f5f9' }} />
           <Bar dataKey="registrations" name="New Members" fill="#3b82f6" radius={[6, 6, 0, 0]}>
@@ -140,6 +144,7 @@ export const BMICategoriesChart = ({ data = [] }) => (
             innerRadius={60}
             paddingAngle={5}
             label={({ category, percent }) => `${category} ${(percent * 100).toFixed(0)}%`}
+            style={{ fill: '#1f2937', fontWeight: 600 }}
             labelLine={false}
           >
             {data.map((entry, index) => (
@@ -151,7 +156,9 @@ export const BMICategoriesChart = ({ data = [] }) => (
             verticalAlign="bottom"
             height={36}
             iconType="circle"
-            formatter={(value) => <span className="text-text-secondary text-xs font-medium ml-1">{value}</span>}
+            wrapperStyle={{ color: 'currentColor' }}
+            className="text-text-secondary dark:text-dark-text-secondary"
+            formatter={(value) => <span className="text-text-secondary dark:text-dark-text-secondary text-xs font-medium ml-1">{value}</span>}
           />
         </PieChart>
       </ResponsiveContainer>
@@ -180,6 +187,7 @@ export const UserStatusChart = ({ data = [] }) => (
             cy="50%"
             outerRadius={100}
             label={({ name, count, percent }) => `${name}: ${count}`}
+            style={{ fill: '#1f2937', fontWeight: 600 }}
           >
             {data.map((entry, index) => (
               <Cell
@@ -191,7 +199,7 @@ export const UserStatusChart = ({ data = [] }) => (
             ))}
           </Pie>
           <Tooltip content={<CustomTooltip />} />
-          <Legend verticalAlign="bottom" height={36} iconType="circle" />
+          <Legend verticalAlign="bottom" height={36} iconType="circle" wrapperStyle={{ color: 'currentColor' }} className="text-text-secondary dark:text-dark-text-secondary" />
         </PieChart>
       </ResponsiveContainer>
     )}
@@ -215,15 +223,17 @@ export const ForumPostsChart = ({ data = [] }) => (
           <XAxis
             dataKey="date"
             stroke="#94a3b8"
-            tick={{ fill: '#64748b', fontSize: 12 }}
+            tick={{ fill: 'currentColor', fontSize: 12 }}
             tickLine={false}
             axisLine={false}
+            className="text-text-secondary dark:text-dark-text-secondary"
           />
           <YAxis
             stroke="#94a3b8"
-            tick={{ fill: '#64748b', fontSize: 12 }}
+            tick={{ fill: 'currentColor', fontSize: 12 }}
             tickLine={false}
             axisLine={false}
+            className="text-text-secondary dark:text-dark-text-secondary"
           />
           <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#cbd5e1', strokeWidth: 1, strokeDasharray: '4 4' }} />
           <Line

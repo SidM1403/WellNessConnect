@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import api from '../api/api.js';
 
 const BMICalculatorWidget = () => {
@@ -118,8 +118,8 @@ const BMICalculatorWidget = () => {
           </div>
           <div className="text-right">
             <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${result.category === 'normal' ? 'bg-emerald-50 text-emerald-600' :
-                result.category === 'underweight' ? 'bg-amber-50 text-amber-600' :
-                  'bg-coral-50 text-coral-600'
+              result.category === 'underweight' ? 'bg-amber-50 text-amber-600' :
+                'bg-coral-50 text-coral-600'
               }`}>
               {categoryLabel(result.category)}
             </span>
@@ -141,6 +141,6 @@ const BMICalculatorWidget = () => {
   );
 };
 
-export default BMICalculatorWidget;
+export default React.memo(BMICalculatorWidget);
 
 

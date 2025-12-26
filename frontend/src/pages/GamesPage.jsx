@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FaBrain, FaStopwatch, FaInfinity, FaWind, FaCalculator, FaLayerGroup } from 'react-icons/fa';
+import GlitchText from '../components/GlitchText';
 
 const games = [
     {
@@ -71,8 +72,21 @@ const GamesPage = () => {
                     <FaBrain className="text-2xl text-primary-500 mr-2" />
                     <span className="font-semibold text-text-primary dark:text-dark-text-primary">Brain & Wellness</span>
                 </div>
-                <h1 className="text-4xl md:text-5xl font-display font-bold text-gray-900 dark:text-dark-text-primary mb-4">
-                    Train your mind. <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-secondary-500">Heal your soul.</span>
+                <h1 className="mb-4 flex flex-wrap items-center gap-3">
+                    <GlitchText
+                        enableOnHover={true}
+                        speed={1.5}
+                        className="text-4xl md:text-5xl font-display font-bold text-gray-900 dark:text-white inline-block glitch-ghost mr-3"
+                    >
+                        Train your mind.{' '}
+                    </GlitchText>
+                    <GlitchText
+                        enableOnHover={true}
+                        speed={1.5}
+                        className="text-4xl md:text-5xl font-display font-bold text-transparent bg-clip-text bg-gradient-primary inline-block ml-2"
+                    >
+                        Heal your soul.
+                    </GlitchText>
                 </h1>
                 <p className="text-lg text-text-secondary dark:text-dark-text-secondary max-w-2xl mx-auto">
                     Interactive exercises designed to improve focus, memory, and cognitive speed while promoting mental well-being.
@@ -124,3 +138,5 @@ const GamesPage = () => {
 };
 
 export default GamesPage;
+
+

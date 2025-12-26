@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const moods = [
@@ -81,6 +81,6 @@ const MoodSelector = ({ onSubmit, todayMood }) => {
   );
 };
 
-export default MoodSelector;
+export default React.memo(MoodSelector);
 
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import api from '../api/api';
 import { FaCalculator, FaFireAlt } from 'react-icons/fa';
 
@@ -115,4 +115,4 @@ const CalorieNeedWidget = () => {
     );
 };
 
-export default CalorieNeedWidget;
+export default React.memo(CalorieNeedWidget);
